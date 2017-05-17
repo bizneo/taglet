@@ -49,6 +49,8 @@ defmodule Mix.Tasks.Taglet.Install do
   end
 
   defp timestamp do
+    :timer.sleep(1000) # Ensure timestamps between files are different
+
     {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
     "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
   end
