@@ -2,8 +2,6 @@ defmodule Mix.Tasks.Taglet.Install do
   @shortdoc "generates taglet migration file for the database"
 
   use Mix.Task
-
-  import Macro, only: [underscore: 1]
   import Mix.Generator
 
   def run(_args) do
