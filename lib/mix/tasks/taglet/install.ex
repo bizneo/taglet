@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Taglet.Install do
 
   use Mix.Task
   import Mix.Generator
+  import Mix.Tasks.Taglet.Utils, only: [timestamp: 0]
 
   def run(_args) do
     path = Path.relative_to("priv/repo/migrations", Mix.Project.app_path)
@@ -21,7 +22,6 @@ defmodule Mix.Tasks.Taglet.Install do
       end
     end
     """
-
 
     create_file tagging_file, """
     defmodule Repo.Migrations.CreateTagging do
@@ -45,14 +45,4 @@ defmodule Mix.Tasks.Taglet.Install do
     end
     """
   end
-
-  defp timestamp do
-    :timer.sleep(1000) # Ensure timestamps between files are different
-
-    {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
-    "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
-  end
-
-  defp pad(i) when i < 10, do: << ?0, ?0 + i >>
-  defp pad(i), do: to_string(i)
 end
