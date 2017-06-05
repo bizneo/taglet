@@ -8,6 +8,7 @@ defmodule Taglet.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      elixirc_paths: elixirc_paths(Mix.env),
+     package: package(),
      deps: deps(),
 
      # Docs
@@ -40,6 +41,19 @@ defmodule Taglet.Mixfile do
       {:postgrex, "~> 0.13.0"},
       {:inflex, "~> 1.8.1"},
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+    ]
+  end
+
+  defp package do
+    [
+      name: :taglet,
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      maintainers: ["itsquall"],
+      licenses: ["Apache License 2.0"],
+      links: %{
+        "GitHub" => "https://github.com/bizneo/taglet",
+        "Docs" => "https://hexdocs.pm/taglet/Taglet.html"
+      }
     ]
   end
 
