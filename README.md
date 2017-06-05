@@ -79,3 +79,14 @@ allow you to associate a new tag
 `Post.categories_list(struct, tag)` - List all associated tags
 
 `Post.tagged_with_category(tag)` - Search for all tags associated to this context
+
+## Working with functions
+If you want you can use directly a set of functions to play with tags:
+
+[`Taglet.add/3`](https://hexdocs.pm/taglet/Taglet.html#add/3)
+
+[`Taglet.remove/3`](https://hexdocs.pm/taglet/Taglet.html#remove/3)
+
+[`Taglet.tag_list/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list/2)
+
+[`Taglet.tagged_with/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with/3)
