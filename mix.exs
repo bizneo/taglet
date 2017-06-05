@@ -13,6 +13,7 @@ defmodule Taglet.Mixfile do
 
      # Docs
      name: "Taglet",
+     description: description(),
      source_url: "https://github.com/bizneo/taglet",
      docs: [main: "Taglet", extras: ["README.md"]]
     ]
@@ -55,6 +56,14 @@ defmodule Taglet.Mixfile do
         "Docs" => "https://hexdocs.pm/taglet/Taglet.html"
       }
     ]
+  end
+
+  defp description do
+    """
+    Taglet allows you to manage tags associated to your records.
+    It also allows you to specify various contexts
+
+    """
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]

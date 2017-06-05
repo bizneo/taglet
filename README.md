@@ -4,7 +4,7 @@
 
 Taglet allows you to manage tags associated to your records.
 
-It also allows you to specify various contexts 
+It also allows you to specify various contexts
 
 ## Installation
 
