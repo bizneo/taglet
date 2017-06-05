@@ -49,6 +49,38 @@ defmodule Taglet do
   end
 
   @doc """
+  Get a persisted struct and removes the tag association for
+  a specific context.
+
+  In case the association doesn't exist nothing will happen.
+
+  It returns a list of associated tags
+  """
+  @spec remove(struct, tag, context) :: tag_list
+  def remove(struct, tag, context \\ "tag") do
+    tag_list = tag_list(struct, context)
+
+    case tag in tag_list do
+      true ->
+        struct
+        |> get_association(get_or_create(tag), context)
+        |> @repo.delete!
+
+        List.delete(tag_list, tag)
+      false -> tag_list
+    end
+  end
+
+  defp get_association(struct, tag_resource, context \\ "tag") do
+    @repo.get_by(Tagging,
+      taggable_id: struct.id,
+      taggable_type: struct.__struct__ |> Module.split |> List.last,
+      context: context,
+      tag_id: tag_resource.id
+    )
+  end
+
+  @doc """
   Given a struct, it searchs the associated tags for a specific
   context.
 

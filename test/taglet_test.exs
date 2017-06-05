@@ -40,6 +40,28 @@ defmodule TagletTest do
     assert result2 == ["mytag2"]
   end
 
+  test "remove/3 deletes a tag and returns a list of associated tags" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    Taglet.add(post, "mytag")
+    Taglet.add(post, "mytag2")
+    Taglet.add(post, "mytag3")
+
+    result = Taglet.remove(post, "mytag2")
+
+    assert result == ["mytag", "mytag3"]
+  end
+
+  test "remove/3 deletes a tag for a specific context and returns a list of associated tags" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    Taglet.add(post, "mytag", "context1")
+    Taglet.add(post, "mytag2", "context1")
+    Taglet.add(post, "mytag3", "context2")
+
+    result = Taglet.remove(post, "mytag2", "context1")
+
+    assert result == ["mytag"]
+  end
+
   test "tag_list/2 returns a list of associated tags" do
     post = @repo.insert!(%Post{title: "hello world"})
     Taglet.add(post, "mytag")
