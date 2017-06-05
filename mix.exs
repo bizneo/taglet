@@ -32,6 +32,7 @@ defmodule Taglet.Mixfile do
     [
       {:ecto, ">= 2.1.0"},
       {:postgrex, "~> 0.13.0"},
+      {:inflex, "~> 1.8.1"},
     ]
   end
 
