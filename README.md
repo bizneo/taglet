@@ -40,15 +40,15 @@ Now, you can use the library in your models.
 
 You should add the next line to your taggable model:
 
-`use Taglet.ModelManager, :tag_context_name`
+`use Taglet.TagAs, :tag_context_name`
 
 i.e.:
 
   ```elixir
   defmodule Post do
     use Ecto.Schema
-    use Taglet.ModelManager, :tags
-    use Taglet.ModelManager, :categories
+    use Taglet.TagAs, :tags
+    use Taglet.TagAs, :categories
 
     import Ecto.Changeset
 

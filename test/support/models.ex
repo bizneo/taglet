@@ -1,7 +1,7 @@
 defmodule TagletPost do
   use Ecto.Schema
-  use Taglet.ModelManager, :tags
-  use Taglet.ModelManager, :categories
+  use Taglet.TagAs, :tags
+  use Taglet.TagAs, :categories
 
   import Ecto.Changeset
 

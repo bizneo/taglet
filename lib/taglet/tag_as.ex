@@ -1,4 +1,4 @@
-defmodule Taglet.ModelManager do
+defmodule Taglet.TagAs do
   defmacro __using__(model_context) do
     context = Atom.to_string(model_context)
     singularized_context = Inflex.singularize(context)

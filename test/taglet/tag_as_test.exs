@@ -1,4 +1,4 @@
-defmodule Taglet.ModelManagerTest do
+defmodule Taglet.TagAsTest do
   use ExUnit.Case
   import Ecto.Query
 

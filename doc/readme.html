@@ -8,7 +8,7 @@
     <title>Taglet – Taglet v0.1.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
-    <script src="dist/sidebar_items-5550e84ec1.js"></script>
+    <script src="dist/sidebar_items-7425335356.js"></script>
   </head>
   <body data-type="extras">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -62,6 +62,7 @@
     <div id="content" class="content-inner">
 
 
+<p><a href="https://circleci.com/gh/bizneo/taglet/tree/master"><img src="https://circleci.com/gh/bizneo/taglet/tree/master.svg?style=svg" alt="CircleCI"/></a></p>
 <h1>Taglet</h1>
 <p>Taglet allows you to manage tags associated to your records.</p>
 <p>It also allows you to specify various contexts </p>
@@ -93,9 +94,43 @@
 <p>  <code class="inline">mix ecto.migrate</code></p>
 </li>
 </ol>
-<p>Documentation can be generated with <a href="https://github.com/elixir-lang/ex_doc">ExDoc</a>
-and published on <a href="https://hexdocs.pm">HexDocs</a>. Once published, the docs can
-be found at <a href="https://hexdocs.pm/taglet">https://hexdocs.pm/taglet</a>.</p>
+<h2 id="include-it-in-your-models" class="section-heading">
+  <a href="#include-it-in-your-models" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Include it in your models
+</h2>
+
+<p>Now, you can use the library in your models.</p>
+<p>You should add the next line to your taggable model:</p>
+<p><code class="inline">use Taglet.TagAs, :tag_context_name</code></p>
+<p>i.e.:</p>
+<pre><code class="elixir">  defmodule Post do
+    use Ecto.Schema
+    use Taglet.TagAs, :tags
+    use Taglet.TagAs, :categories
+
+    import Ecto.Changeset
+
+    schema &quot;posts&quot; do
+      field :title, :string
+      field :body, :boolean
+
+      timestamps()
+    end
+
+    def changeset(struct, params \\ %{}) do
+      struct
+      |&gt; cast(params, [:title, :body])
+      |&gt; validate_required([:title])
+    end
+  end</code></pre>
+<p>As you can see, we have included two different contexts, tags and
+categories</p>
+<p>Now we can use a set of metaprogrammed functions:</p>
+<p><code class="inline">Post.add_category(struct, tag)</code> - Passing a persisted struct will
+allow you to associate a new tag</p>
+<p><code class="inline">Post.remove_category(struct, tag)</code> - Will allow you to remove a tag</p>
+<p><code class="inline">Post.categories_list(struct, tag)</code> - List all associated tags</p>
+<p><code class="inline">Post.tagged_with_category(tag)</code> - Search for all tags associated to this context</p>
 
       <footer class="footer">
         <p>
