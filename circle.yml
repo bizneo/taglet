@@ -3,6 +3,10 @@ machine:
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: test
 
+database:
+  override:
+    - createdb taglet_test
+
 dependencies:
   cache_directories:
     - ~/.asdf
