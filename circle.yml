@@ -1,7 +1,7 @@
 machine:
   environment:
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
-    MIX_ENV: test
+    MIX_ENV: ci
 
 database:
   override:
