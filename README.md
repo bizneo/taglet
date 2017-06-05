@@ -34,7 +34,48 @@ It also allows you to specify various contexts
 
   ```mix ecto.migrate```
 
+## Include it in your models
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/taglet](https://hexdocs.pm/taglet).
+Now, you can use the library in your models.
+
+You should add the next line to your taggable model:
+
+`use Taglet.ModelManager, :tag_context_name`
+
+i.e.:
+
+  ```elixir
+  defmodule Post do
+    use Ecto.Schema
+    use Taglet.ModelManager, :tags
+    use Taglet.ModelManager, :categories
+
+    import Ecto.Changeset
+
+    schema "posts" do
+      field :title, :string
+      field :body, :boolean
+
+      timestamps()
+    end
+
+    def changeset(struct, params \\ %{}) do
+      struct
+      |> cast(params, [:title, :body])
+      |> validate_required([:title])
+    end
+  end
+  ```
+As you can see, we have included two different contexts, tags and
+categories
+
+Now we can use a set of metaprogrammed functions:
+
+`Post.add_category(struct, tag)` - Passing a persisted struct will
+allow you to associate a new tag
+
+`Post.remove_category(struct, tag)` - Will allow you to remove a tag
+
+`Post.categories_list(struct, tag)` - List all associated tags
+
+`Post.tagged_with_category(tag)` - Search for all tags associated to this context
