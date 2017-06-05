@@ -12,7 +12,7 @@ It also allows you to specify various contexts
 
   ```elixir
   def deps do
-    [{:taglet, github: "bizneo/taglet"}]
+    [{:taglet, "~> 0.1.0"}]
   end
   ```
 
