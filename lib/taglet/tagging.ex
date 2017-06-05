@@ -1,7 +1,6 @@
 defmodule Taglet.Tagging do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "taggings" do
     field :taggable_id, :integer, null: false

@@ -1,5 +1,7 @@
 defmodule Mix.Tasks.Taglet.Utils do
-  @shortdoc "Some helper functions for tasks"
+  @moduledoc"""
+  Some helper functions for tasks
+  """
 
   def timestamp do
     {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()

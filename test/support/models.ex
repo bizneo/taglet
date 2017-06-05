@@ -4,7 +4,6 @@ defmodule TagletPost do
   use Taglet.ModelManager, :categories
 
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "posts" do
     field :title, :string

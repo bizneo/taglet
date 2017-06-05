@@ -71,7 +71,7 @@ defmodule Taglet do
     end
   end
 
-  defp get_association(struct, tag_resource, context \\ "tag") do
+  defp get_association(struct, tag_resource, context) do
     @repo.get_by(Tagging,
       taggable_id: struct.id,
       taggable_type: struct.__struct__ |> Module.split |> List.last,
