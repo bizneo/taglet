@@ -1,6 +1,8 @@
 # Taglet
 
-**TODO: Add description**
+Taglet allows you to manage tags associated to your records.
+
+It also allows you to specify various contexts 
 
 ## Installation
 
@@ -12,15 +14,21 @@
   end
   ```
 
-  2. Install your dependencies:
+  2. Configure Taglet to use your repo in `config/config.exs`:
+
+  ```elixir
+  config :taglet, repo: ApplicationName.Repo
+  ```
+
+  3. Install your dependencies:
 
   ```mix deps.get```
 
-  3. Generate the migrations:
+  4. Generate the migrations:
 
   ```mix taglet.install```
 
-  4. Run the migrations:
+  5. Run the migrations:
 
   ```mix ecto.migrate```
 
@@ -28,4 +36,3 @@
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/taglet](https://hexdocs.pm/taglet).
-
