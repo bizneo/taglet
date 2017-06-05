@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/bizneo/taglet/tree/master.svg?style=svg)](https://circleci.com/gh/bizneo/taglet/tree/master)
+
 # Taglet
 
 Taglet allows you to manage tags associated to your records.
