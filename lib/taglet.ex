@@ -104,4 +104,27 @@ defmodule Taglet do
     |> @repo.all
     |> Enum.map(fn(result) -> result.name end)
   end
+
+  @doc """
+  Given a tag, model and context ('tag' by default), will find
+  all the model resources associated to the given tag.
+  """
+  @spec tagged_with(tag, module, context) :: list
+  def tagged_with(tag, model, context \\ "tag") do
+    type = model |> Module.split |> List.last
+
+    model
+    |> join(:right, [m], tg in Tagging,
+      tg.taggable_type == ^type
+      and
+      tg.context == ^context
+    )
+    |> join(:inner, [m, tg], t in Tag,
+      t.id == tg.tag_id
+      and
+      t.name == ^tag
+    )
+    |> where([m, tg, t], m.id == tg.taggable_id)
+    |> @repo.all
+  end
 end

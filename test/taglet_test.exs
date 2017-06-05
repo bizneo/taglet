@@ -81,4 +81,17 @@ defmodule TagletTest do
 
     assert result == ["mytag", "mytag2"]
   end
+
+  test "tagged_with/2 returns a list of structs associated to a tag" do
+    post1 = @repo.insert!(%Post{title: "hello world1"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    post3 = @repo.insert!(%Post{title: "hello world3"})
+    Taglet.add(post1, "tagged1")
+    Taglet.add(post2, "tagged1")
+    Taglet.add(post3, "tagged2")
+
+    result = Taglet.tagged_with("tagged1", Post)
+
+    assert result == [post1, post2]
+  end
 end
