@@ -8,7 +8,7 @@
     <title>Taglet – Taglet v0.1.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
-    <script src="dist/sidebar_items-21c2c9db5c.js"></script>
+    <script src="dist/sidebar_items-5550e84ec1.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -139,11 +139,31 @@ struct for a specific context</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#remove/3">remove(struct, tag, context \\ &quot;tag&quot;)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Get a persisted struct and removes the tag association for
+a specific context</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#tag_list/2">tag_list(struct, context \\ &quot;tag&quot;)</a>
   </div>
   
     <div class="summary-synopsis"><p>Given a struct, it searchs the associated tags for a specific
 context</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#tagged_with/3">tagged_with(tag, model, context \\ &quot;tag&quot;)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Given a tag, model and context (‘tag’ by default), will find
+all the model resources associated to the given tag</p>
 </div>
   
 </div>
@@ -321,6 +341,39 @@ struct for a specific context.</p>
 
   </section>
 </div>
+<div class="detail" id="remove/3">
+  
+    <span id="remove/2"></span>
+  
+  <div class="detail-header">
+    <a href="#remove/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">remove(struct, tag, context \\ &quot;tag&quot;)</span>
+    
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L60" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>remove(struct, <a href="#t:tag/0">tag</a>, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Get a persisted struct and removes the tag association for
+a specific context.</p>
+<p>In case the association doesn’t exist nothing will happen.</p>
+<p>It returns a list of associated tags</p>
+
+  </section>
+</div>
 <div class="detail" id="tag_list/2">
   
     <span id="tag_list/1"></span>
@@ -332,7 +385,7 @@ struct for a specific context.</p>
     </a>
     <span class="signature">tag_list(struct, context \\ &quot;tag&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L58" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L90" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -350,6 +403,37 @@ struct for a specific context.</p>
     <p>Given a struct, it searchs the associated tags for a specific
 context.</p>
 <p>It returns a list of associated tags ordered by <code class="inline">insert_date</code></p>
+
+  </section>
+</div>
+<div class="detail" id="tagged_with/3">
+  
+    <span id="tagged_with/2"></span>
+  
+  <div class="detail-header">
+    <a href="#tagged_with/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">tagged_with(tag, model, context \\ &quot;tag&quot;)</span>
+    
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L113" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>tagged_with(<a href="#t:tag/0">tag</a>, module, <a href="#t:context/0">context</a>) :: list</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Given a tag, model and context (‘tag’ by default), will find
+all the model resources associated to the given tag.</p>
 
   </section>
 </div>
