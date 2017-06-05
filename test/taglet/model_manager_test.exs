@@ -41,4 +41,26 @@ defmodule Taglet.ModelManagerTest do
     assert tag_result      == ["mytag"]
     assert category_result == ["mycategory"]
   end
+
+  test "using the module allows to remove a tag and list it" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    Post.add_category(post, "mycategory")
+
+    result = Post.remove_category(post, "mycategory")
+
+    assert result == []
+  end
+
+  test "using the module allows to search for tagged resources" do
+    post1 = @repo.insert!(%Post{title: "hello world1"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    post3 = @repo.insert!(%Post{title: "hello world3"})
+    Post.add_category(post1, "tagged1")
+    Post.add_category(post2, "tagged1")
+    Post.add_category(post3, "tagged2")
+
+    result = Post.tagged_with_category("tagged1")
+
+    assert result == [post1, post2]
+  end
 end
