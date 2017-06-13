@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Taglet – Taglet v0.1.0</title>
+    <title>Taglet – Taglet v0.2.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/taglet/Taglet.html" />
     
-    <script src="dist/sidebar_items-7425335356.js"></script>
+    <script src="dist/sidebar_items-1287b1ae26.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -29,7 +29,7 @@
         Taglet
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">Taglet v0.1.0</small>
+        <small class="visible-xs">Taglet v0.2.0</small>
         Taglet
         
           <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L1" title="View Source" class="view-source" rel="help">
@@ -120,6 +120,12 @@
   </div>
   
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:tags/0">tags()</a>
+  </div>
+  
+</div>
 
   </div>
 
@@ -131,7 +137,7 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#add/3">add(struct, tag, context \\ &quot;tag&quot;)</a>
+    <a href="#add/3">add(struct, tags, context \\ &quot;tag&quot;)</a>
   </div>
   
     <div class="summary-synopsis"><p>Get a persisted struct and inserts a new tag associated to this
@@ -197,7 +203,7 @@ all the model resources associated to the given tag</p>
     </a>
     <span class="signature">context()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L12" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L13" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -206,7 +212,7 @@ all the model resources associated to the given tag</p>
     
       <div class="specs">
         
-          <pre>context() :: bitstring</pre>
+          <pre>context() :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a></pre>
         
       </div>
     
@@ -224,7 +230,7 @@ all the model resources associated to the given tag</p>
     </a>
     <span class="signature">persisted_struct()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L14" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L15" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -251,7 +257,7 @@ all the model resources associated to the given tag</p>
     </a>
     <span class="signature">tag()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L11" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L12" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -260,7 +266,7 @@ all the model resources associated to the given tag</p>
     
       <div class="specs">
         
-          <pre>tag() :: bitstring</pre>
+          <pre>tag() :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a></pre>
         
       </div>
     
@@ -278,7 +284,7 @@ all the model resources associated to the given tag</p>
     </a>
     <span class="signature">tag_list()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L13" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L14" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -288,6 +294,33 @@ all the model resources associated to the given tag</p>
       <div class="specs">
         
           <pre>tag_list() :: list</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:tags/0">
+  
+  <div class="detail-header">
+    <a href="#t:tags/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">tags()</span>
+    
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L11" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>tags() :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a> | list</pre>
         
       </div>
     
@@ -319,9 +352,9 @@ all the model resources associated to the given tag</p>
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">add(struct, tag, context \\ &quot;tag&quot;)</span>
+    <span class="signature">add(struct, tags, context \\ &quot;tag&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L25" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L28" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -330,7 +363,7 @@ all the model resources associated to the given tag</p>
     
       <div class="specs">
         
-          <pre>add(struct, <a href="#t:tag/0">tag</a>, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
+          <pre>add(struct, <a href="#t:tags/0">tags</a>, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
         
       </div>
     
@@ -338,6 +371,7 @@ all the model resources associated to the given tag</p>
   <section class="docstring">
     <p>Get a persisted struct and inserts a new tag associated to this
 struct for a specific context.</p>
+<p>You can pass a tag or a list of tags.</p>
 <p>In case the tag is duplicated nothing will happen.</p>
 <p>It returns a list of associated tags</p>
 
@@ -354,7 +388,7 @@ struct for a specific context.</p>
     </a>
     <span class="signature">remove(struct, tag, context \\ &quot;tag&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L60" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L89" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -387,7 +421,7 @@ a specific context.</p>
     </a>
     <span class="signature">tag_list(struct, context \\ &quot;tag&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L90" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L119" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -419,7 +453,7 @@ context.</p>
     </a>
     <span class="signature">tagged_with(tag, model, context \\ &quot;tag&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L113" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L142" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>

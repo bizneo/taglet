@@ -18,6 +18,8 @@ defmodule Taglet do
   Get a persisted struct and inserts a new tag associated to this
   struct for a specific context.
 
+  You can pass a tag or a list of tags.
+
   In case the tag is duplicated nothing will happen.
 
   It returns a list of associated tags
