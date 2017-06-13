@@ -8,8 +8,9 @@ defmodule Taglet do
 
   @repo Taglet.RepoClient.repo
 
-  @type tag                 :: bitstring
-  @type context             :: bitstring
+  @type tags                :: String.t | list
+  @type tag                 :: String.t
+  @type context             :: String.t
   @type tag_list            :: list
   @type persisted_struct    :: struct
 
@@ -21,21 +22,35 @@ defmodule Taglet do
 
   It returns a list of associated tags
   """
-  @spec add(struct, tag, context) :: tag_list
-  def add(struct, tag, context \\ "tag") do
+  @spec add(struct, tags, context) :: tag_list
+  def add(struct, tags, context \\ "tag")
+  def add(struct, tags, context) when is_list(tags) do
+    tag_list = tag_list(struct, context)
+    new_tags = tags -- tag_list
+
+    case new_tags do
+      [] ->
+        tag_list
+      new_tags ->
+        taggings = Enum.map(new_tags, fn(tag) ->
+          generate_tagging(struct, tag, context)
+        end)
+
+        @repo.insert_all(Tagging, taggings)
+
+        tag_list ++ new_tags
+    end
+
+  end
+  def add(struct, tag, context) do
     tag_list = tag_list(struct, context)
 
     case tag in tag_list do
       true  -> tag_list
       false ->
-        tag_resource = get_or_create(tag)
-
-        @repo.insert!(%Tagging{
-          taggable_id: struct.id,
-          taggable_type: struct.__struct__ |> Module.split |> List.last,
-          context: context,
-          tag_id: tag_resource.id
-        })
+        %Tagging{}
+        |> Tagging.changeset(generate_tagging(struct, tag, context))
+        |> @repo.insert!
 
         List.insert_at(tag_list, -1, tag)
     end
@@ -46,6 +61,18 @@ defmodule Taglet do
       nil -> @repo.insert!(%Tag{name: tag})
       tag_resource -> tag_resource
     end
+  end
+
+  defp generate_tagging(struct, tag, context) do
+    tag_resource = get_or_create(tag)
+
+    %{
+      taggable_id: struct.id,
+      taggable_type: struct.__struct__ |> Module.split |> List.last,
+      context: context,
+      tag_id: tag_resource.id,
+      inserted_at: Ecto.DateTime.utc
+    }
   end
 
   @doc """

@@ -21,6 +21,15 @@ defmodule TagletTest do
     :ok
   end
 
+  test "add/3 returns a list of associated tags with the new tags" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    Taglet.add(post, "mytag")
+
+    result = Taglet.add(post, ["tag1", "tag2"])
+
+    assert result == ["mytag", "tag1", "tag2"]
+  end
+
   test "add/3 returns a list of associated tags with the new tag" do
     post = @repo.insert!(%Post{title: "hello world"})
     Taglet.add(post, "mytag")
