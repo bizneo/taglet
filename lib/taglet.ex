@@ -24,15 +24,16 @@ defmodule Taglet do
 
   It returns a list of associated tags
   """
-  @spec add(struct, tags, context) :: tag_list
-  def add(struct, tags, context \\ "tag")
-  def add(struct, tags, context) when is_list(tags) do
+  @spec add(struct, tags, context) :: struct
+  def add(struct, tags, context \\ "tags")
+  def add(struct, tag, context) when is_bitstring(tag), do: add(struct, [tag], context)
+  def add(struct, tags, context) do
     tag_list = tag_list(struct, context)
     new_tags = tags -- tag_list
 
     case new_tags do
       [] ->
-        tag_list
+        put_tags(struct, context, tag_list)
       new_tags ->
         taggings = Enum.map(new_tags, fn(tag) ->
           generate_tagging(struct, tag, context)
@@ -40,28 +41,7 @@ defmodule Taglet do
 
         @repo.insert_all(Tagging, taggings)
 
-        tag_list ++ new_tags
-    end
-
-  end
-  def add(struct, tag, context) do
-    tag_list = tag_list(struct, context)
-
-    case tag in tag_list do
-      true  -> tag_list
-      false ->
-        %Tagging{}
-        |> Tagging.changeset(generate_tagging(struct, tag, context))
-        |> @repo.insert!
-
-        List.insert_at(tag_list, -1, tag)
-    end
-  end
-
-  defp get_or_create(tag) do
-    case @repo.get_by(Tag, name: tag) do
-      nil -> @repo.insert!(%Tag{name: tag})
-      tag_resource -> tag_resource
+        put_tags(struct, context, tag_list ++ new_tags)
     end
   end
 
@@ -86,7 +66,7 @@ defmodule Taglet do
   It returns a list of associated tags
   """
   @spec remove(struct, tag, context) :: tag_list
-  def remove(struct, tag, context \\ "tag") do
+  def remove(struct, tag, context \\ "tags") do
     tag_list = tag_list(struct, context)
 
     case tag in tag_list do
@@ -95,18 +75,30 @@ defmodule Taglet do
         |> get_association(get_or_create(tag), context)
         |> @repo.delete!
 
-        List.delete(tag_list, tag)
-      false -> tag_list
+        put_tags(struct, context, List.delete(tag_list, tag))
+      false ->
+        put_tags(struct, context, tag_list)
+    end
+  end
+
+  defp get_or_create(tag) do
+    case @repo.get_by(Tag, name: tag) do
+      nil -> @repo.insert!(%Tag{name: tag})
+      tag_resource -> tag_resource
     end
   end
 
   defp get_association(struct, tag_resource, context) do
     @repo.get_by(Tagging,
-      taggable_id: struct.id,
-      taggable_type: struct.__struct__ |> Module.split |> List.last,
-      context: context,
-      tag_id: tag_resource.id
+    taggable_id: struct.id,
+    taggable_type: struct.__struct__ |> Module.split |> List.last,
+    context: context,
+    tag_id: tag_resource.id
     )
+  end
+
+  defp put_tags(struct, context, tags) do
+    Map.put(struct, String.to_atom(context), tags)
   end
 
   @doc """
@@ -116,7 +108,7 @@ defmodule Taglet do
   It returns a list of associated tags ordered by `insert_date`
   """
   @spec tag_list(struct, context) :: tag_list
-  def tag_list(struct, context \\ "tag") do
+  def tag_list(struct, context \\ "tags") do
     id = struct.id
     type = struct.__struct__ |> Module.split |> List.last
 
@@ -135,11 +127,32 @@ defmodule Taglet do
   end
 
   @doc """
+  Search for all tags associated to a taggable_type
+  and a context
+  """
+  @spec tags(module, context) :: list
+  def tags(model, context \\ "tags") do
+    type = model |> Module.split |> List.last
+
+    Tag
+    |> join(:inner, [t], tg in Tagging, t.id == tg.tag_id)
+    |> where([t, tg],
+      tg.context == ^context
+      and
+      tg.taggable_type == ^type
+    )
+    |> distinct([t, tg], t.name)
+    |> order_by([t, tg], asc: tg.inserted_at)
+    |> @repo.all
+    |> Enum.map(fn(result) -> result.name end)
+  end
+
+  @doc """
   Given a tag, model and context ('tag' by default), will find
   all the model resources associated to the given tag.
   """
   @spec tagged_with(tag, module, context) :: list
-  def tagged_with(tag, model, context \\ "tag") do
+  def tagged_with(tag, model, context \\ "tags") do
     type = model |> Module.split |> List.last
 
     model

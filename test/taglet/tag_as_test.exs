@@ -21,6 +21,14 @@ defmodule Taglet.TagAsTest do
     :ok
   end
 
+test "using the module allows to add tags and list it" do
+    post = @repo.insert!(%Post{title: "hello world"})
+
+    result = Post.add_categories(post, ["mycategory", "yourcategory"])
+
+    assert result.categories == ["mycategory", "yourcategory"]
+  end
+
   test "using the module allows to add a tag and list it" do
     post = @repo.insert!(%Post{title: "hello world"})
     Post.add_category(post, "mycategory")
@@ -48,7 +56,18 @@ defmodule Taglet.TagAsTest do
 
     result = Post.remove_category(post, "mycategory")
 
-    assert result == []
+    assert result.categories == []
+  end
+
+  test "using the module allows to search for all created tags for a context" do
+    post1 = @repo.insert!(%Post{title: "hello world"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    Taglet.add(post1, ["tag1", "tag2"])
+    Taglet.add(post2, ["tag2", "tag3"])
+
+    result = Post.tags
+
+    assert result == ["tag1", "tag2", "tag3"]
   end
 
   test "using the module allows to search for tagged resources" do

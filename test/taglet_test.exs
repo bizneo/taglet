@@ -27,7 +27,7 @@ defmodule TagletTest do
 
     result = Taglet.add(post, ["tag1", "tag2"])
 
-    assert result == ["mytag", "tag1", "tag2"]
+    assert result.tags == ["mytag", "tag1", "tag2"]
   end
 
   test "add/3 returns a list of associated tags with the new tag" do
@@ -36,7 +36,7 @@ defmodule TagletTest do
 
     result = Taglet.add(post, "mytag2")
 
-    assert result == ["mytag", "mytag2"]
+    assert result.tags == ["mytag", "mytag2"]
   end
 
   test "add/3 with context returns a diferent list for every context" do
@@ -45,8 +45,8 @@ defmodule TagletTest do
     result1 = Taglet.add(post, "mytag1", "context1")
     result2 = Taglet.add(post, "mytag2", "context2")
 
-    assert result1 == ["mytag1"]
-    assert result2 == ["mytag2"]
+    assert result1.context1 == ["mytag1"]
+    assert result2.context2 == ["mytag2"]
   end
 
   test "remove/3 deletes a tag and returns a list of associated tags" do
@@ -57,7 +57,7 @@ defmodule TagletTest do
 
     result = Taglet.remove(post, "mytag2")
 
-    assert result == ["mytag", "mytag3"]
+    assert result.tags == ["mytag", "mytag3"]
   end
 
   test "remove/3 deletes a tag for a specific context and returns a list of associated tags" do
@@ -68,7 +68,7 @@ defmodule TagletTest do
 
     result = Taglet.remove(post, "mytag2", "context1")
 
-    assert result == ["mytag"]
+    assert result.context1 == ["mytag"]
   end
 
   test "tag_list/2 returns a list of associated tags" do
@@ -89,6 +89,17 @@ defmodule TagletTest do
     result = Taglet.tag_list(post, "context")
 
     assert result == ["mytag", "mytag2"]
+  end
+
+  test "tags/2 returns a list of tags related with one context and model" do
+    post1 = @repo.insert!(%Post{title: "hello world"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    Taglet.add(post1, ["tag1", "tag2"])
+    Taglet.add(post2, ["tag2", "tag3"])
+
+    result = Taglet.tags(Post)
+
+    assert result == ["tag1", "tag2", "tag3"]
   end
 
   test "tagged_with/2 returns a list of structs associated to a tag" do
