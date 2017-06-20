@@ -102,7 +102,7 @@ defmodule TagletTest do
     assert result == ["tag1", "tag2", "tag3"]
   end
 
-  test "tagged_with/2 returns a list of structs associated to a tag" do
+  test "tagged_with/3 returns a list of structs associated to a tag" do
     post1 = @repo.insert!(%Post{title: "hello world1"})
     post2 = @repo.insert!(%Post{title: "hello world2"})
     post3 = @repo.insert!(%Post{title: "hello world3"})
@@ -113,5 +113,19 @@ defmodule TagletTest do
     result = Taglet.tagged_with("tagged1", Post)
 
     assert result == [post1, post2]
+  end
+
+  test "tagged_with_query/3 returns a query of structs associated to a tag" do
+    post1 = @repo.insert!(%Post{title: "hello world1"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    post3 = @repo.insert!(%Post{title: "hello world3"})
+    Taglet.add(post1, "tagged1")
+    Taglet.add(post2, "tagged1")
+    Taglet.add(post3, "tagged2")
+    query = Post |> where(title: "hello world1")
+
+    result = Taglet.tagged_with_query(query, "tagged1") |> @repo.all
+
+    assert result == [post1]
   end
 end

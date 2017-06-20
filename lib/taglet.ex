@@ -1,5 +1,5 @@
 defmodule Taglet do
-  import Ecto.Query
+  import Ecto.{Query, Queryable}
   alias Taglet.{Tagging, Tag}
 
   @moduledoc """
@@ -50,7 +50,7 @@ defmodule Taglet do
 
     %{
       taggable_id: struct.id,
-      taggable_type: struct.__struct__ |> Module.split |> List.last,
+      taggable_type: struct.__struct__ |> taggable_type,
       context: context,
       tag_id: tag_resource.id,
       inserted_at: Ecto.DateTime.utc
@@ -91,7 +91,7 @@ defmodule Taglet do
   defp get_association(struct, tag_resource, context) do
     @repo.get_by(Tagging,
     taggable_id: struct.id,
-    taggable_type: struct.__struct__ |> Module.split |> List.last,
+    taggable_type: struct.__struct__ |> taggable_type,
     context: context,
     tag_id: tag_resource.id
     )
@@ -110,7 +110,7 @@ defmodule Taglet do
   @spec tag_list(struct, context) :: tag_list
   def tag_list(struct, context \\ "tags") do
     id = struct.id
-    type = struct.__struct__ |> Module.split |> List.last
+    type = struct.__struct__ |> taggable_type
 
     Tag
     |> join(:inner, [t], tg in Tagging, t.id == tg.tag_id)
@@ -132,7 +132,7 @@ defmodule Taglet do
   """
   @spec tags(module, context) :: list
   def tags(model, context \\ "tags") do
-    type = model |> Module.split |> List.last
+    type = taggable_type(model)
 
     Tag
     |> join(:inner, [t], tg in Tagging, t.id == tg.tag_id)
@@ -153,9 +153,18 @@ defmodule Taglet do
   """
   @spec tagged_with(tag, module, context) :: list
   def tagged_with(tag, model, context \\ "tags") do
-    type = model |> Module.split |> List.last
+    do_tag_search(model, tag, context) |> @repo.all
+  end
 
-    model
+  def tagged_with_query(query, tag, context \\ "tags") do
+    do_tag_search(query, tag, context)
+  end
+
+  defp do_tag_search(queryable, tag, context) do
+    %{from: {_source, schema}} = Ecto.Queryable.to_query(queryable)
+    type = taggable_type(schema)
+
+    queryable
     |> join(:right, [m], tg in Tagging,
       tg.taggable_type == ^type
       and
@@ -167,6 +176,7 @@ defmodule Taglet do
       t.name == ^tag
     )
     |> where([m, tg, t], m.id == tg.taggable_id)
-    |> @repo.all
   end
+
+  defp taggable_type(module), do: module |> Module.split |> List.last
 end
