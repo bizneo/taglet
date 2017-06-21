@@ -120,12 +120,12 @@ defmodule TagletTest do
     post2 = @repo.insert!(%Post{title: "hello world2"})
     post3 = @repo.insert!(%Post{title: "hello world3"})
     Taglet.add(post1, "tagged1")
-    Taglet.add(post2, "tagged1")
+    Taglet.add(post2, ["tagged1", "tagged2"])
     Taglet.add(post3, "tagged2")
-    query = Post |> where(title: "hello world1")
+    query = Post |> where(title: "hello world2")
 
-    result = Taglet.tagged_with_query(query, "tagged1") |> @repo.all
+    result = Taglet.tagged_with_query(Post, ["tagged1", "tagged2"]) |> @repo.all
 
-    assert result == [post1]
+    assert result == [post2]
   end
 end

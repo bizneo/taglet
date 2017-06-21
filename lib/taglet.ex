@@ -151,31 +151,33 @@ defmodule Taglet do
   Given a tag, model and context ('tag' by default), will find
   all the model resources associated to the given tag.
   """
-  @spec tagged_with(tag, module, context) :: list
-  def tagged_with(tag, model, context \\ "tags") do
-    do_tag_search(model, tag, context) |> @repo.all
+  @spec tagged_with(tags, module, context) :: list
+  def tagged_with(tags, model, context \\ "tags") do
+    do_tags_search(model, tags, context) |> @repo.all
   end
 
-  def tagged_with_query(query, tag, context \\ "tags") do
-    do_tag_search(query, tag, context)
+  def tagged_with_query(query, tags, context \\ "tags") do
+    do_tags_search(query, tags, context)
   end
 
-  defp do_tag_search(queryable, tag, context) do
+  defp do_tags_search(queryable, tags, context) do
     %{from: {_source, schema}} = Ecto.Queryable.to_query(queryable)
     type = taggable_type(schema)
+    tags_size = length(tags)
 
     queryable
-    |> join(:right, [m], tg in Tagging,
+    |> join(:inner, [m], tg in Tagging,
       tg.taggable_type == ^type
       and
       tg.context == ^context
-    )
-    |> join(:inner, [m, tg], t in Tag,
-      t.id == tg.tag_id
       and
-      t.name == ^tag
+      m.id == tg.taggable_id
     )
-    |> where([m, tg, t], m.id == tg.taggable_id)
+    |> join(:inner, [m, tg], t in Tag, t.id == tg.tag_id)
+    |> where([m, tg, t], t.name in ^tags)
+    |> group_by([m, tg, t], m.id)
+    |> having([m, tg, t], count(tg.taggable_id) == ^tags_size)
+    |> select([m, tg, t], m)
   end
 
   defp taggable_type(module), do: module |> Module.split |> List.last
