@@ -54,6 +54,7 @@ defmodule Taglet.TagletQuery do
     |> where([m, tg, t], t.name in ^tags)
     |> group_by([m, tg, t], m.id)
     |> having([m, tg, t], count(tg.taggable_id) == ^tags_length)
+    |> order_by([m, t, tg], asc: m.inserted_at)
     |> select([m, tg, t], m)
   end
 

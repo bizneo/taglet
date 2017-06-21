@@ -21,7 +21,7 @@ defmodule Taglet.TagAsTest do
     :ok
   end
 
-test "using the module allows to add tags and list it" do
+  test "using the module allows to add tags and list it" do
     post = @repo.insert!(%Post{title: "hello world"})
 
     result = Post.add_categories(post, ["mycategory", "yourcategory"])
@@ -70,31 +70,30 @@ test "using the module allows to add tags and list it" do
     assert result == ["tag1", "tag2", "tag3"]
   end
 
-  #test "using the module allows to search for tagged resources" do
-    #post1 = @repo.insert!(%Post{title: "hello world1"})
-    #post2 = @repo.insert!(%Post{title: "hello world2"})
-    #post3 = @repo.insert!(%Post{title: "hello world3"})
-    #Post.add_category(post1, "tagged1")
-    #Post.add_category(post2, "tagged1")
-    #Post.add_category(post3, "tagged2")
+  test "using the module allows to search for tagged resources" do
+    post1 = @repo.insert!(%Post{title: "hello world1"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    post3 = @repo.insert!(%Post{title: "hello world3"})
+    Post.add_category(post1, "tagged1")
+    Post.add_category(post2, "tagged1")
+    Post.add_category(post3, "tagged2")
 
-    #result = Post.tagged_with_category("tagged1")
+    result = Post.tagged_with_category("tagged1")
 
-    #assert result == [post1, post2]
-  #end
+    assert result == [post1, post2]
+  end
 
-  #test "using the module allows to build a query to search for tagged resources" do
-    #post1 = @repo.insert!(%Post{title: "hello world1"})
-    #post2 = @repo.insert!(%Post{title: "hello world2"})
-    #post3 = @repo.insert!(%Post{title: "hello world3"})
-    #Post.add_category(post1, "tagged1")
-    #Post.add_category(post2, "tagged1")
-    #Post.add_category(post3, "tagged2")
-    #query = Post |> where(title: "hello world1")
+  test "using the module allows to build a query to search for tagged resources" do
+    post1 = @repo.insert!(%Post{title: "hello world1"})
+    post2 = @repo.insert!(%Post{title: "hello world2"})
+    post3 = @repo.insert!(%Post{title: "hello world3"})
+    Post.add_category(post1, "tagged1")
+    Post.add_category(post2, "tagged1")
+    Post.add_category(post3, "tagged2")
+    query = Post |> where(title: "hello world1")
 
-    #result = Post.tagged_with_query_category(query, "tagged1") |> @repo.all
+    result = Post.tagged_with_query_category(query, "tagged1") |> @repo.all
 
-    #assert result == [post1]
-
-  #end
+    assert result == [post1]
+  end
 end

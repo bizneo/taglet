@@ -102,8 +102,6 @@ defmodule Taglet do
   end
 
   defp put_tags(struct, context, tags) do
-    IO.puts context
-    IO.puts "hola"
     Map.put(struct, String.to_atom(context), tags)
   end
 
@@ -147,6 +145,7 @@ defmodule Taglet do
   The purpose of this function is allow you to include it in your filter flow
   or perform actions like paginate the results.
   """
+  def tagged_with_query(query, tag, context) when is_bitstring(tag), do: tagged_with_query(query, [tag], context)
   def tagged_with_query(query, tags, context \\ "tags") do
     do_tags_search(query, tags, context)
   end
