@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Taglet.Tagging – Taglet v0.4.0</title>
+    <title>Taglet.TagletQuery – Taglet v0.4.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/taglet/Taglet.Tagging.html" />
+      <link rel="canonical" href="https://hexdocs.pm/taglet/Taglet.TagletQuery.html" />
     
     <script src="dist/sidebar_items-cc18e02435.js"></script>
   </head>
@@ -66,15 +66,21 @@
 
       <h1>
         <small class="visible-xs">Taglet v0.4.0</small>
-        Taglet.Tagging
+        Taglet.TagletQuery
         
-          <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet/tagging.ex#L1" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet/taglet_query.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
           </a>
         
       </h1>
 
+      
+        <section id="moduledoc">
+          <p>Allow to build essential ecto queries for taglet</p>
+<p>All this functions only should be used from Taglet module</p>
+
+        </section>
       
 
       
@@ -95,8 +101,20 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#changeset/2">changeset(struct, params \\ %{})</a>
+    <a href="#search_tagged_with/4">search_tagged_with(query, tags, context, taggable_type)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Build the query to search tagged resources</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#search_tags/3">search_tags(context, taggable_type, taggable_id \\ nil)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Build the query to search tags in a specific context, struct or module</p>
+</div>
   
 </div>
 
@@ -119,18 +137,16 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="changeset/2">
-  
-    <span id="changeset/1"></span>
+          <div class="detail" id="search_tagged_with/4">
   
   <div class="detail-header">
-    <a href="#changeset/2" class="detail-link" title="Link to this function">
+    <a href="#search_tagged_with/4" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">changeset(struct, params \\ %{})</span>
+    <span class="signature">search_tagged_with(query, tags, context, taggable_type)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet/tagging.ex#L15" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet/taglet_query.ex#L48" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -139,7 +155,32 @@
     
   </div>
   <section class="docstring">
+    <p>Build the query to search tagged resources</p>
+
+  </section>
+</div>
+<div class="detail" id="search_tags/3">
+  
+    <span id="search_tags/2"></span>
+  
+  <div class="detail-header">
+    <a href="#search_tags/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">search_tags(context, taggable_type, taggable_id \\ nil)</span>
     
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet/taglet_query.ex#L14" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Build the query to search tags in a specific context, struct or module</p>
+
   </section>
 </div>
 

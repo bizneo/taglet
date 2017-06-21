@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Taglet – Taglet v0.3.0</title>
+    <title>Taglet – Taglet v0.4.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/taglet/readme.html" />
     
-    <script src="dist/sidebar_items-5339dce78e.js"></script>
+    <script src="dist/sidebar_items-cc18e02435.js"></script>
   </head>
   <body data-type="extras">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -29,7 +29,7 @@
         Taglet
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.3.0
+        v0.4.0
       </h2>
     </div>
     
@@ -78,7 +78,7 @@
 </li>
 </ol>
 <pre><code class="elixir">  def deps do
-    [{:taglet, &quot;~&gt; 0.2.0&quot;}]
+    [{:taglet, &quot;~&gt; 0.4.0&quot;}]
   end</code></pre>
 <ol start="2">
 <li>Configure Taglet to use your repo in <code class="inline">config/config.exs</code>:
@@ -130,9 +130,19 @@ categories</p>
 <p>Now we can use a set of metaprogrammed functions:</p>
 <p><code class="inline">Post.add_category(struct, tag)</code> - Passing a persisted struct will
 allow you to associate a new tag</p>
+<p><code class="inline">Post.add_categories(struct, tags)</code> - Passing a persisted struct will
+allow you to associate a new list of tags</p>
 <p><code class="inline">Post.remove_category(struct, tag)</code> - Will allow you to remove a tag</p>
-<p><code class="inline">Post.categories_list(struct, tag)</code> - List all associated tags</p>
-<p><code class="inline">Post.tagged_with_category(tag)</code> - Search for all tags associated to this context</p>
+<p><code class="inline">Post.categories_list(struct)</code> - List all associated tags with the given
+struct</p>
+<p><code class="inline">Post.categories</code> - List all associated tags with the module</p>
+<p><code class="inline">Post.tagged_with_category(tag)</code> - Search for all resources tagged with
+the given tag</p>
+<p><code class="inline">Post.tagged_with_categories(tags)</code> - Search for all resources tagged
+with the given list tag</p>
+<p><code class="inline">Post.tagged_with_query_category(queryable, tags)</code> - Allow to
+concatenate ecto queries and return the query.</p>
+<p><code class="inline">Post.tagged_with_query_categories(queryable, tags)</code> - Same than previous function but allow to receive a list of tags</p>
 <h2 id="working-with-functions" class="section-heading">
   <a href="#working-with-functions" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Working with functions
@@ -143,6 +153,7 @@ allow you to associate a new tag</p>
 <p><a href="https://hexdocs.pm/taglet/Taglet.html#remove/3"><code class="inline">Taglet.remove/3</code></a></p>
 <p><a href="https://hexdocs.pm/taglet/Taglet.html#tag_list/2"><code class="inline">Taglet.tag_list/2</code></a></p>
 <p><a href="https://hexdocs.pm/taglet/Taglet.html#tagged_with/3"><code class="inline">Taglet.tagged_with/3</code></a></p>
+<p><a href="https://hexdocs.pm/taglet/Taglet.html#tagged_with_query/3"><code class="inline">Taglet.tagged_with_query/3</code></a></p>
 
       <footer class="footer">
         <p>

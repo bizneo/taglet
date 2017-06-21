@@ -5,7 +5,7 @@ fonts/icomoon.eot
 fonts/icomoon.svg
 fonts/icomoon.ttf
 fonts/icomoon.woff
-dist/sidebar_items-5339dce78e.js
+dist/sidebar_items-cc18e02435.js
 api-reference.html
 readme.html
 404.html
@@ -14,6 +14,7 @@ Taglet.RepoClient.html
 Taglet.Tag.html
 Taglet.TagAs.html
 Taglet.Tagging.html
+Taglet.TagletQuery.html
 Mix.Tasks.Taglet.Install.html
 Mix.Tasks.Taglet.Utils.html
 index.html

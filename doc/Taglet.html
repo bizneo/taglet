@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Taglet – Taglet v0.3.0</title>
+    <title>Taglet – Taglet v0.4.0</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/taglet/Taglet.html" />
     
-    <script src="dist/sidebar_items-5339dce78e.js"></script>
+    <script src="dist/sidebar_items-cc18e02435.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -29,7 +29,7 @@
         Taglet
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.3.0
+        v0.4.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">Taglet v0.3.0</small>
+        <small class="visible-xs">Taglet v0.4.0</small>
         Taglet
         
           <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L1" title="View Source" class="view-source" rel="help">
@@ -77,7 +77,10 @@
 
       
         <section id="moduledoc">
-          <p>Documentation for Taglet.</p>
+          <p>Documentation for Taglet.
+Taglet allows you to manage tags associated to your records.</p>
+<p>Please read README.md to get more info about how to use that
+package.</p>
 
         </section>
       
@@ -104,12 +107,6 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#t:persisted_struct/0">persisted_struct()</a>
-  </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="#t:tag/0">tag()</a>
   </div>
   
@@ -117,6 +114,12 @@
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#t:tag_list/0">tag_list()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:taggable/0">taggable()</a>
   </div>
   
 </div>
@@ -157,31 +160,30 @@ a specific context</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#tag_list/2">tag_list(struct, context \\ &quot;tags&quot;)</a>
+    <a href="#tag_list/2">tag_list(taggable, context \\ &quot;tags&quot;)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Given a struct, it searchs the associated tags for a specific
+    <div class="summary-synopsis"><p>It searchs the associated tags for a specific
 context</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#tagged_with/3">tagged_with(tag, model, context \\ &quot;tags&quot;)</a>
+    <a href="#tagged_with/3">tagged_with(tags, model, context \\ &quot;tags&quot;)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Given a tag, model and context (‘tag’ by default), will find
-all the model resources associated to the given tag</p>
+    <div class="summary-synopsis"><p>Given a tag, module and context (‘tag’ by default), will find
+all the module resources associated to the given tag</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#tags/2">tags(model, context \\ &quot;tags&quot;)</a>
+    <a href="#tagged_with_query/3">tagged_with_query(query, tag, context)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Search for all tags associated to a taggable_type
-and a context</p>
+    <div class="summary-synopsis"><p>The same than tagged_with/3 but returns the query instead of db results</p>
 </div>
   
 </div>
@@ -213,7 +215,7 @@ and a context</p>
     </a>
     <span class="signature">context()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L13" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L17" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -231,33 +233,6 @@ and a context</p>
     
   </section>
 </div>
-<div class="detail" id="t:persisted_struct/0">
-  
-  <div class="detail-header">
-    <a href="#t:persisted_struct/0" class="detail-link" title="Link to this type">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this type</span>
-    </a>
-    <span class="signature">persisted_struct()</span>
-    
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L15" class="view-source" rel="help" title="View Source">
-       <span class="icon-code" aria-hidden="true"></span>
-       <span class="sr-only">View Source</span>
-     </a>
-    
-    
-    
-      <div class="specs">
-        
-          <pre>persisted_struct() :: struct</pre>
-        
-      </div>
-    
-  </div>
-  <section class="docstring">
-    
-  </section>
-</div>
 <div class="detail" id="t:tag/0">
   
   <div class="detail-header">
@@ -267,7 +242,7 @@ and a context</p>
     </a>
     <span class="signature">tag()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L12" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L16" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -294,7 +269,7 @@ and a context</p>
     </a>
     <span class="signature">tag_list()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L14" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L18" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -312,6 +287,33 @@ and a context</p>
     
   </section>
 </div>
+<div class="detail" id="t:taggable/0">
+  
+  <div class="detail-header">
+    <a href="#t:taggable/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <span class="signature">taggable()</span>
+    
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L14" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>taggable() :: module | struct</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
 <div class="detail" id="t:tags/0">
   
   <div class="detail-header">
@@ -321,7 +323,7 @@ and a context</p>
     </a>
     <span class="signature">tags()</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L11" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L15" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -364,7 +366,7 @@ and a context</p>
     </a>
     <span class="signature">add(struct, tags, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L28" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L31" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -382,8 +384,8 @@ and a context</p>
     <p>Get a persisted struct and inserts a new tag associated to this
 struct for a specific context.</p>
 <p>You can pass a tag or a list of tags.</p>
-<p>In case the tag is duplicated nothing will happen.</p>
-<p>It returns a list of associated tags</p>
+<p>In case the tag would be duplicated nothing will happen.</p>
+<p>It returns the struct with a new entry for the given context.</p>
 
   </section>
 </div>
@@ -398,7 +400,7 @@ struct for a specific context.</p>
     </a>
     <span class="signature">remove(struct, tag, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L69" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L73" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -407,7 +409,7 @@ struct for a specific context.</p>
     
       <div class="specs">
         
-          <pre>remove(struct, <a href="#t:tag/0">tag</a>, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
+          <pre>remove(struct, <a href="#t:tag/0">tag</a>, <a href="#t:context/0">context</a>) :: struct</pre>
         
       </div>
     
@@ -416,7 +418,7 @@ struct for a specific context.</p>
     <p>Get a persisted struct and removes the tag association for
 a specific context.</p>
 <p>In case the association doesn’t exist nothing will happen.</p>
-<p>It returns a list of associated tags</p>
+<p>In the same way that add/3 it returns a struct</p>
 
   </section>
 </div>
@@ -429,9 +431,9 @@ a specific context.</p>
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">tag_list(struct, context \\ &quot;tags&quot;)</span>
+    <span class="signature">tag_list(taggable, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L111" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L118" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -440,15 +442,21 @@ a specific context.</p>
     
       <div class="specs">
         
-          <pre>tag_list(struct, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
+          <pre>tag_list(<a href="#t:taggable/0">taggable</a>, <a href="#t:context/0">context</a>) :: <a href="#t:tag_list/0">tag_list</a></pre>
         
       </div>
     
   </div>
   <section class="docstring">
-    <p>Given a struct, it searchs the associated tags for a specific
+    <p>It searchs the associated tags for a specific
 context.</p>
-<p>It returns a list of associated tags ordered by <code class="inline">insert_date</code></p>
+<p>You can pass as first argument an struct or a module (phoenix model)</p>
+<ul>
+<li>With a struct: it returns the list of tags associated to that struct and context.
+</li>
+<li>With a module: it returns all the tags associated to one module and context.
+</li>
+</ul>
 
   </section>
 </div>
@@ -461,9 +469,9 @@ context.</p>
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">tagged_with(tag, model, context \\ &quot;tags&quot;)</span>
+    <span class="signature">tagged_with(tags, model, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L155" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L136" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -472,45 +480,39 @@ context.</p>
     
       <div class="specs">
         
-          <pre>tagged_with(<a href="#t:tag/0">tag</a>, module, <a href="#t:context/0">context</a>) :: list</pre>
+          <pre>tagged_with(<a href="#t:tags/0">tags</a>, module, <a href="#t:context/0">context</a>) :: list</pre>
         
       </div>
     
   </div>
   <section class="docstring">
-    <p>Given a tag, model and context (‘tag’ by default), will find
-all the model resources associated to the given tag.</p>
+    <p>Given a tag, module and context (‘tag’ by default), will find
+all the module resources associated to the given tag.</p>
+<p>You can pass a simple tag or a list of tags.</p>
 
   </section>
 </div>
-<div class="detail" id="tags/2">
-  
-    <span id="tags/1"></span>
+<div class="detail" id="tagged_with_query/3">
   
   <div class="detail-header">
-    <a href="#tags/2" class="detail-link" title="Link to this function">
+    <a href="#tagged_with_query/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">tags(model, context \\ &quot;tags&quot;)</span>
+    <span class="signature">tagged_with_query(query, tag, context)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L134" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L148" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
     
     
     
-      <div class="specs">
-        
-          <pre>tags(module, <a href="#t:context/0">context</a>) :: list</pre>
-        
-      </div>
-    
   </div>
   <section class="docstring">
-    <p>Search for all tags associated to a taggable_type
-and a context</p>
+    <p>The same than tagged_with/3 but returns the query instead of db results.</p>
+<p>The purpose of this function is allow you to include it in your filter flow
+or perform actions like paginate the results.</p>
 
   </section>
 </div>
