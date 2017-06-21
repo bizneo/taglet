@@ -16,12 +16,12 @@ defmodule Taglet.TagAs do
         Taglet.remove(struct, tag, unquote(context))
       end
 
-      def unquote(:"#{context}_list")(struct) do
+      def unquote(:"#{singularized_context}_list")(struct) do
         Taglet.tag_list(struct, unquote(context))
       end
 
       def unquote(:"#{context}")() do
-        Taglet.tags(__MODULE__, unquote(context))
+        Taglet.tag_list(__MODULE__, unquote(context))
       end
 
       def unquote(:"tagged_with_#{singularized_context}")(tag) do

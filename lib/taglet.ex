@@ -1,6 +1,5 @@
 defmodule Taglet do
-  import Ecto.{Query, Queryable}
-  alias Taglet.{Tagging, Tag}
+  alias Taglet.{Tagging, Tag, TagletQuery}
 
   @moduledoc """
   Documentation for Taglet.
@@ -8,11 +7,11 @@ defmodule Taglet do
 
   @repo Taglet.RepoClient.repo
 
+  @type taggable            :: module | struct
   @type tags                :: String.t | list
   @type tag                 :: String.t
   @type context             :: String.t
   @type tag_list            :: list
-  @type persisted_struct    :: struct
 
   @doc """
   Get a persisted struct and inserts a new tag associated to this
@@ -107,44 +106,16 @@ defmodule Taglet do
 
   It returns a list of associated tags ordered by `insert_date`
   """
-  @spec tag_list(struct, context) :: tag_list
-  def tag_list(struct, context \\ "tags") do
+  @spec tag_list(taggable, context) :: tag_list
+  def tag_list(taggable, context \\ "tags")
+  def tag_list(struct, context) when is_map(struct) do
     id = struct.id
     type = struct.__struct__ |> taggable_type
 
-    Tag
-    |> join(:inner, [t], tg in Tagging, t.id == tg.tag_id)
-    |> where([t, tg],
-      tg.context == ^context
-      and
-      tg.taggable_id == ^id
-      and
-      tg.taggable_type == ^type
-    )
-    |> order_by([t, tg], asc: tg.inserted_at)
-    |> @repo.all
-    |> Enum.map(fn(result) -> result.name end)
+    TagletQuery.search_tags(context, type, id) |> @repo.all
   end
-
-  @doc """
-  Search for all tags associated to a taggable_type
-  and a context
-  """
-  @spec tags(module, context) :: list
-  def tags(model, context \\ "tags") do
-    type = taggable_type(model)
-
-    Tag
-    |> join(:inner, [t], tg in Tagging, t.id == tg.tag_id)
-    |> where([t, tg],
-      tg.context == ^context
-      and
-      tg.taggable_type == ^type
-    )
-    |> distinct([t, tg], t.name)
-    |> order_by([t, tg], asc: tg.inserted_at)
-    |> @repo.all
-    |> Enum.map(fn(result) -> result.name end)
+  def tag_list(model, context) do
+    TagletQuery.search_tags(context, taggable_type(model)) |> @repo.all
   end
 
   @doc """
@@ -162,22 +133,9 @@ defmodule Taglet do
 
   defp do_tags_search(queryable, tags, context) do
     %{from: {_source, schema}} = Ecto.Queryable.to_query(queryable)
-    type = taggable_type(schema)
-    tags_size = length(tags)
 
     queryable
-    |> join(:inner, [m], tg in Tagging,
-      tg.taggable_type == ^type
-      and
-      tg.context == ^context
-      and
-      m.id == tg.taggable_id
-    )
-    |> join(:inner, [m, tg], t in Tag, t.id == tg.tag_id)
-    |> where([m, tg, t], t.name in ^tags)
-    |> group_by([m, tg, t], m.id)
-    |> having([m, tg, t], count(tg.taggable_id) == ^tags_size)
-    |> select([m, tg, t], m)
+    |> TagletQuery.search_tagged_with(tags, context, taggable_type(schema))
   end
 
   defp taggable_type(module), do: module |> Module.split |> List.last

@@ -71,7 +71,7 @@ defmodule TagletTest do
     assert result.context1 == ["mytag"]
   end
 
-  test "tag_list/2 returns a list of associated tags" do
+  test "tag_list/2 with struct as param returns a list of associated tags" do
     post = @repo.insert!(%Post{title: "hello world"})
     Taglet.add(post, "mytag")
     Taglet.add(post, "mytag2")
@@ -81,7 +81,7 @@ defmodule TagletTest do
     assert result == ["mytag", "mytag2"]
   end
 
-  test "tag_list/2 returns a list of associated tags for a specific context" do
+  test "tag_list/2 with struct returns a list of associated tags for a specific context" do
     post = @repo.insert!(%Post{title: "hello world"})
     Taglet.add(post, "mytag", "context")
     Taglet.add(post, "mytag2", "context")
@@ -91,29 +91,29 @@ defmodule TagletTest do
     assert result == ["mytag", "mytag2"]
   end
 
-  test "tags/2 returns a list of tags related with one context and model" do
+  test "tag_list/2 with module as param returns a list of tags related with one context and module" do
     post1 = @repo.insert!(%Post{title: "hello world"})
     post2 = @repo.insert!(%Post{title: "hello world2"})
     Taglet.add(post1, ["tag1", "tag2"])
     Taglet.add(post2, ["tag2", "tag3"])
 
-    result = Taglet.tags(Post)
+    result = Taglet.tag_list(Post)
 
     assert result == ["tag1", "tag2", "tag3"]
   end
 
-  test "tagged_with/3 returns a list of structs associated to a tag" do
-    post1 = @repo.insert!(%Post{title: "hello world1"})
-    post2 = @repo.insert!(%Post{title: "hello world2"})
-    post3 = @repo.insert!(%Post{title: "hello world3"})
-    Taglet.add(post1, "tagged1")
-    Taglet.add(post2, "tagged1")
-    Taglet.add(post3, "tagged2")
+  #test "tagged_with/3 returns a list of structs associated to a tag" do
+    #post1 = @repo.insert!(%Post{title: "hello world1"})
+    #post2 = @repo.insert!(%Post{title: "hello world2"})
+    #post3 = @repo.insert!(%Post{title: "hello world3"})
+    #Taglet.add(post1, "tagged1")
+    #Taglet.add(post2, "tagged1")
+    #Taglet.add(post3, "tagged2")
 
-    result = Taglet.tagged_with("tagged1", Post)
+    #result = Taglet.tagged_with("tagged1", Post)
 
-    assert result == [post1, post2]
-  end
+    #assert result == [post1, post2]
+  #end
 
   test "tagged_with_query/3 returns a query of structs associated to a tag" do
     post1 = @repo.insert!(%Post{title: "hello world1"})
