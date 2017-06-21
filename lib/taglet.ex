@@ -30,18 +30,18 @@ defmodule Taglet do
     tag_list = tag_list(struct, context)
     new_tags = tags -- tag_list
 
-    case new_tags do
-      [] ->
-        put_tags(struct, context, tag_list)
-      new_tags ->
-        taggings = Enum.map(new_tags, fn(tag) ->
-          generate_tagging(struct, tag, context)
-        end)
+    add_new_tags(struct, context, new_tags, tag_list)
+  end
 
-        @repo.insert_all(Tagging, taggings)
+  defp add_new_tags(struct, context, [], tag_list), do: put_tags(struct, context, tag_list)
+  defp add_new_tags(struct, context, new_tags, tag_list) do
+    taggings = Enum.map(new_tags, fn(tag) ->
+      generate_tagging(struct, tag, context)
+    end)
 
-        put_tags(struct, context, tag_list ++ new_tags)
-    end
+    @repo.insert_all(Tagging, taggings)
+
+    put_tags(struct, context, tag_list ++ new_tags)
   end
 
   defp generate_tagging(struct, tag, context) do
