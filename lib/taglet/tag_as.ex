@@ -28,8 +28,16 @@ defmodule Taglet.TagAs do
         Taglet.tagged_with(tag, __MODULE__, unquote(context))
       end
 
+      def unquote(:"tagged_with_#{context}")(tags) do
+        Taglet.tagged_with(tags, __MODULE__, unquote(context))
+      end
+
       def unquote(:"tagged_with_query_#{singularized_context}")(queryable, tag) do
         Taglet.tagged_with_query(queryable, tag, unquote(context))
+      end
+
+      def unquote(:"tagged_with_query_#{context}")(queryable, tags) do
+        Taglet.tagged_with_query(queryable, tags, unquote(context))
       end
     end
   end

@@ -74,11 +74,27 @@ Now we can use a set of metaprogrammed functions:
 `Post.add_category(struct, tag)` - Passing a persisted struct will
 allow you to associate a new tag
 
+`Post.add_categories(struct, tags)` - Passing a persisted struct will
+allow you to associate a new list of tags
+
 `Post.remove_category(struct, tag)` - Will allow you to remove a tag
 
-`Post.categories_list(struct, tag)` - List all associated tags
+`Post.categories_list(struct)` - List all associated tags with the given
+struct
 
-`Post.tagged_with_category(tag)` - Search for all tags associated to this context
+`Post.categories` - List all associated tags with the module
+
+`Post.tagged_with_category(tag)` - Search for all resources tagged with
+the given tag
+
+`Post.tagged_with_categories(tags)` - Search for all resources tagged
+with the given list tag
+
+`Post.tagged_with_query_category(queryable, tags)` - Allow to
+concatenate ecto queries and return the query.
+
+`Post.tagged_with_query_categories(queryable, tags)` - Same than previous function but allow to receive a list of tags
+
 
 ## Working with functions
 If you want you can use directly a set of functions to play with tags:
@@ -90,3 +106,5 @@ If you want you can use directly a set of functions to play with tags:
 [`Taglet.tag_list/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list/2)
 
 [`Taglet.tagged_with/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with/3)
+
+[`Taglet.tagged_with_query/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with_query/3)

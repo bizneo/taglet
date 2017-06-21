@@ -3,6 +3,10 @@ defmodule Taglet do
 
   @moduledoc """
   Documentation for Taglet.
+  Taglet allows you to manage tags associated to your records.
+
+  Please read README.md to get more info about how to use that
+  package.
   """
 
   @repo Taglet.RepoClient.repo
@@ -19,9 +23,9 @@ defmodule Taglet do
 
   You can pass a tag or a list of tags.
 
-  In case the tag is duplicated nothing will happen.
+  In case the tag would be duplicated nothing will happen.
 
-  It returns a list of associated tags
+  It returns the struct with a new entry for the given context.
   """
   @spec add(struct, tags, context) :: struct
   def add(struct, tags, context \\ "tags")
@@ -62,9 +66,10 @@ defmodule Taglet do
 
   In case the association doesn't exist nothing will happen.
 
-  It returns a list of associated tags
+  In the same way that add/3 it returns a struct
+
   """
-  @spec remove(struct, tag, context) :: tag_list
+  @spec remove(struct, tag, context) :: struct
   def remove(struct, tag, context \\ "tags") do
     tag_list = tag_list(struct, context)
 
@@ -97,14 +102,19 @@ defmodule Taglet do
   end
 
   defp put_tags(struct, context, tags) do
+    IO.puts context
+    IO.puts "hola"
     Map.put(struct, String.to_atom(context), tags)
   end
 
   @doc """
-  Given a struct, it searchs the associated tags for a specific
+  It searchs the associated tags for a specific
   context.
 
-  It returns a list of associated tags ordered by `insert_date`
+  You can pass as first argument an struct or a module (phoenix model)
+
+  - With a struct: it returns the list of tags associated to that struct and context.
+  - With a module: it returns all the tags associated to one module and context.
   """
   @spec tag_list(taggable, context) :: tag_list
   def tag_list(taggable, context \\ "tags")
@@ -119,14 +129,24 @@ defmodule Taglet do
   end
 
   @doc """
-  Given a tag, model and context ('tag' by default), will find
-  all the model resources associated to the given tag.
+  Given a tag, module and context ('tag' by default), will find
+  all the module resources associated to the given tag.
+
+  You can pass a simple tag or a list of tags.
   """
   @spec tagged_with(tags, module, context) :: list
-  def tagged_with(tags, model, context \\ "tags") do
+  def tagged_with(tags, model, context \\ "tags")
+  def tagged_with(tag, model, context) when is_bitstring(tag), do: tagged_with([tag], model, context)
+  def tagged_with(tags, model, context) do
     do_tags_search(model, tags, context) |> @repo.all
   end
 
+  @doc """
+  The same than tagged_with/3 but returns the query instead of db results.
+
+  The purpose of this function is allow you to include it in your filter flow
+  or perform actions like paginate the results.
+  """
   def tagged_with_query(query, tags, context \\ "tags") do
     do_tags_search(query, tags, context)
   end

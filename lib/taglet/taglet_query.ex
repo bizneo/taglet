@@ -2,6 +2,15 @@ defmodule Taglet.TagletQuery do
   import Ecto.{Query, Queryable}
   alias Taglet.{Tagging, Tag}
 
+  @moduledoc """
+  Allow to build essential ecto queries for taglet
+
+  All this functions only should be used from Taglet module
+  """
+
+  @doc """
+  Build the query to search tags in a specific context, struct or module
+  """
   def search_tags(context, taggable_type, taggable_id \\ nil) do
     Tag
     |> join_taggings_from_tag(context, taggable_type, taggable_id)
@@ -33,6 +42,9 @@ defmodule Taglet.TagletQuery do
     )
   end
 
+  @doc """
+  Build the query to search tagged resources
+  """
   def search_tagged_with(query, tags, context, taggable_type) do
     tags_length = length(tags)
 
