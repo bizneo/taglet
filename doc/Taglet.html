@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Taglet – Taglet v0.4.0</title>
+    <title>Taglet – Taglet v0.4.1</title>
     <link rel="stylesheet" href="dist/app-4ecae1abb8.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/taglet/Taglet.html" />
@@ -29,7 +29,7 @@
         Taglet
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.4.0
+        v0.4.1
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">Taglet v0.4.0</small>
+        <small class="visible-xs">Taglet v0.4.1</small>
         Taglet
         
           <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L1" title="View Source" class="view-source" rel="help">
@@ -180,7 +180,7 @@ all the module resources associated to the given tag</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#tagged_with_query/3">tagged_with_query(query, tag, context)</a>
+    <a href="#tagged_with_query/3">tagged_with_query(query, tags, context \\ &quot;tags&quot;)</a>
   </div>
   
     <div class="summary-synopsis"><p>The same than tagged_with/3 but returns the query instead of db results</p>
@@ -400,7 +400,7 @@ struct for a specific context.</p>
     </a>
     <span class="signature">remove(struct, tag, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L73" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L74" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -433,7 +433,7 @@ a specific context.</p>
     </a>
     <span class="signature">tag_list(taggable, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L118" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L119" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -471,7 +471,7 @@ context.</p>
     </a>
     <span class="signature">tagged_with(tags, model, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L136" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L137" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -494,14 +494,16 @@ all the module resources associated to the given tag.</p>
 </div>
 <div class="detail" id="tagged_with_query/3">
   
+    <span id="tagged_with_query/2"></span>
+  
   <div class="detail-header">
     <a href="#tagged_with_query/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">tagged_with_query(query, tag, context)</span>
+    <span class="signature">tagged_with_query(query, tags, context \\ &quot;tags&quot;)</span>
     
-      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L148" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/bizneo/taglet/blob/master/lib/taglet.ex#L149" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
