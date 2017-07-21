@@ -29,6 +29,7 @@ defmodule Taglet do
   """
   @spec add(struct, tags, context) :: struct
   def add(struct, tags, context \\ "tags")
+  def add(struct, nil, context), do: struct
   def add(struct, tag, context) when is_bitstring(tag), do: add(struct, [tag], context)
   def add(struct, tags, context) do
     tag_list = tag_list(struct, context)

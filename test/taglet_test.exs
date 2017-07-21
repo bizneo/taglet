@@ -58,6 +58,12 @@ defmodule TagletTest do
     assert result.tags == ["mytag"]
   end
 
+  test "add/3 with nil tag returns the same struct" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    result = Taglet.add(post, nil)
+    assert result == post
+  end
+
   test "remove/3 deletes a tag and returns a list of associated tags" do
     post = @repo.insert!(%Post{title: "hello world"})
     Taglet.add(post, "mytag")
@@ -144,7 +150,7 @@ defmodule TagletTest do
     Taglet.add(post3, "tagged2")
     query = Post |> where(title: "hello world2")
 
-    result = Taglet.tagged_with_query(Post, ["tagged1", "tagged2"]) |> @repo.all
+    result = Taglet.tagged_with_query(query, ["tagged1", "tagged2"]) |> @repo.all
 
     assert result == [post2]
   end
