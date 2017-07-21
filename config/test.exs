@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :logger, level: :info
+
 config :taglet, ecto_repos: [Taglet.Repo]
 
 config :taglet, repo: Taglet.Repo
