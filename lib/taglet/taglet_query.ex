@@ -1,5 +1,5 @@
 defmodule Taglet.TagletQuery do
-  import Ecto.{Query, Queryable}
+  import Ecto.{Query}
   alias Taglet.{Tagging, Tag}
 
   @moduledoc """
