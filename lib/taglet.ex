@@ -29,7 +29,7 @@ defmodule Taglet do
   """
   @spec add(struct, tags, context) :: struct
   def add(struct, tags, context \\ "tags")
-  def add(struct, nil, context), do: struct
+  def add(struct, nil, _context), do: struct
   def add(struct, tag, context) when is_bitstring(tag), do: add(struct, [tag], context)
   def add(struct, tags, context) do
     tag_list = tag_list(struct, context)
@@ -146,8 +146,9 @@ defmodule Taglet do
   The purpose of this function is allow you to include it in your filter flow
   or perform actions like paginate the results.
   """
+  def tagged_with_query(query, tags, context \\ "tags")
   def tagged_with_query(query, tag, context) when is_bitstring(tag), do: tagged_with_query(query, [tag], context)
-  def tagged_with_query(query, tags, context \\ "tags") do
+  def tagged_with_query(query, tags, context) do
     do_tags_search(query, tags, context)
   end
 
