@@ -116,15 +116,30 @@ defmodule Taglet do
   - With a module: it returns all the tags associated to one module and context.
   """
   @spec tag_list(taggable, context) :: tag_list
-  def tag_list(taggable, context \\ "tags")
-  def tag_list(struct, context) when is_map(struct) do
+  def tag_list(taggable, context \\ "tags") do
+    taggable
+    |> tag_list_queryable(context)
+    |> @repo.all
+  end
+
+  @doc """
+  It works exactly like tag_list but return a queryable
+
+  You can pass as first argument an struct or a module (phoenix model)
+
+  - With a struct: it returns the list of tags associated to that struct and context.
+  - With a module: it returns all the tags associated to one module and context.
+  """
+  @spec tag_list_queryable(taggable, context) :: Ecto.Queryable.t
+  def tag_list_queryable(taggable, context \\ "tags")
+  def tag_list_queryable(struct, context) when is_map(struct) do
     id = struct.id
     type = struct.__struct__ |> taggable_type
 
-    TagletQuery.search_tags(context, type, id) |> @repo.all
+    TagletQuery.search_tags(context, type, id)
   end
-  def tag_list(model, context) do
-    TagletQuery.search_tags(context, taggable_type(model)) |> @repo.all
+  def tag_list_queryable(model, context) do
+    TagletQuery.search_tags(context, taggable_type(model))
   end
 
   @doc """
