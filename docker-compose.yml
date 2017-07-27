@@ -1,0 +1,11 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.5
+  lib:
+    build: .
+    command: echo "OK"
+    volumes:
+      - .:/taglet
+    depends_on:
+      - db
