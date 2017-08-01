@@ -77,8 +77,8 @@ defmodule Taglet do
     case tag in tag_list do
       true ->
         struct
-        |> get_association(get_or_create(tag), context)
-        |> @repo.delete!
+        |> TagletQuery.get_tags_association(get_or_create(tag), context)
+        |> @repo.delete_all
 
         put_tags(struct, context, List.delete(tag_list, tag))
       false ->
@@ -91,15 +91,6 @@ defmodule Taglet do
       nil -> @repo.insert!(%Tag{name: tag})
       tag_resource -> tag_resource
     end
-  end
-
-  defp get_association(struct, tag_resource, context) do
-    @repo.get_by(Tagging,
-    taggable_id: struct.id,
-    taggable_type: struct.__struct__ |> taggable_type,
-    context: context,
-    tag_id: tag_resource.id
-    )
   end
 
   defp put_tags(struct, context, tags) do
