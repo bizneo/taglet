@@ -59,6 +59,14 @@ defmodule Taglet.TagAs do
           def unquote(:"add_#{context}")(tags) do
             Taglet.add(%__MODULE__{}, tags, unquote(context))
           end
+
+          def unquote(:"add_#{Inflex.singularize(context)}")(tags) do
+            Taglet.add(%__MODULE__{}, tags, unquote(context))
+          end
+
+          def unquote(:"remove_#{Inflex.singularize(context)}")(tag) do
+            Taglet.remove(%__MODULE__{}, tag, unquote(context))
+          end
         end)
       end)
     end
