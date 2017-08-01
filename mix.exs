@@ -3,7 +3,7 @@ defmodule Taglet.Mixfile do
 
   def project do
     [app: :taglet,
-     version: "0.4.1",
+     version: "0.4.2",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -49,7 +49,7 @@ defmodule Taglet.Mixfile do
     [
       name: :taglet,
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
-      maintainers: ["itsquall"],
+      maintainers: ["itsquall", "abmm"],
       licenses: ["Apache License 2.0"],
       links: %{
         "GitHub" => "https://github.com/bizneo/taglet",

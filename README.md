@@ -84,6 +84,8 @@ struct
 
 `Post.categories` - List all associated tags with the module
 
+`Post.categories_queryable` - Same as `Post.categories` but it returns a `queryable` instead of a list.
+
 `Post.tagged_with_category(tag)` - Search for all resources tagged with
 the given tag
 
@@ -104,6 +106,8 @@ If you want you can use directly a set of functions to play with tags:
 [`Taglet.remove/3`](https://hexdocs.pm/taglet/Taglet.html#remove/3)
 
 [`Taglet.tag_list/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list/2)
+
+[`Taglet.tag_list_queryable/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list_queryable/2)
 
 [`Taglet.tagged_with/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with/3)
 

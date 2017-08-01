@@ -29,6 +29,16 @@ defmodule Taglet.TagAsTest do
     assert result.categories == ["mycategory", "yourcategory"]
   end
 
+  test "using the module allows to add tags and list it as a queryable" do
+    post = @repo.insert!(%Post{title: "hello world"})
+
+    Post.add_categories(post, ["mycategory", "yourcategory"])
+    queryable = Post.categories_queryable
+
+    assert queryable.__struct__ == Ecto.Query
+    assert queryable |> @repo.all == ["mycategory", "yourcategory"]
+  end
+
   test "using the module allows to add a tag and list it" do
     post = @repo.insert!(%Post{title: "hello world"})
     Post.add_category(post, "mycategory")
@@ -48,6 +58,21 @@ defmodule Taglet.TagAsTest do
 
     assert tag_result      == ["mytag"]
     assert category_result == ["mycategory"]
+  end
+
+  test "using the module allows to add a tag and list it as queryable for different contexts" do
+    post = @repo.insert!(%Post{title: "hello world"})
+    Post.add_category(post, "mycategory")
+    Post.add_tag(post, "mytag")
+
+    tag_queryable      = Post.tags_queryable
+    category_queryable = Post.categories_queryable
+
+    assert tag_queryable.__struct__      == Ecto.Query
+    assert category_queryable.__struct__ == Ecto.Query
+
+    assert tag_queryable |> @repo.all      == ["mytag"]
+    assert category_queryable |> @repo.all == ["mycategory"]
   end
 
   test "using the module allows to remove a tag and list it" do
