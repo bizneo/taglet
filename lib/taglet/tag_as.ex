@@ -67,6 +67,10 @@ defmodule Taglet.TagAs do
           def unquote(:"remove_#{Inflex.singularize(context)}")(tag) do
             Taglet.remove(%__MODULE__{}, tag, unquote(context))
           end
+
+          def unquote(:"rename_#{Inflex.singularize(context)}")(old_tag, new_tag) do
+            Taglet.rename(%__MODULE__{}, old_tag, new_tag, unquote(context) )
+          end
         end)
       end)
     end

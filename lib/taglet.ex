@@ -111,6 +111,38 @@ defmodule Taglet do
   end
 
   @doc """
+  Rename the tag name by a new one. This actions has effect only
+  in the context specificied.
+
+  If the old_tag does not exist return nil.
+  context.
+  """
+  def rename(struct, old_tag, new_tag, context) do
+    case @repo.get_by(Tag, name: old_tag) do
+      nil -> nil
+      tag -> rename_tag(struct, tag, new_tag, context)
+    end
+  end
+
+  defp rename_tag(struct, old_tag, new_tag_name, context) do
+    TagletQuery.count_tagging_by_tag_id(old_tag.id)
+    |> @repo.one
+    |> case do
+      0 ->
+        #If the new tag is NOT in Tagging we have only to rename `name`
+        #in Tag table.
+        Tag.changeset(old_tag, %{name: new_tag_name})
+        |> @repo.update
+      _ ->
+        #In this case we have to add or create a new Tag, and uptade all relations
+        # context - taggable_type with the new_tag.id
+        new_tag = get_or_create(new_tag_name)
+        TagletQuery.get_tags_association(struct, old_tag, context)
+        |> @repo.update_all(set: [tag_id: new_tag.id])
+    end
+  end
+
+  @doc """
   It searchs the associated tags for a specific
   context.
 
