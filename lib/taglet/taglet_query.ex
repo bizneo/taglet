@@ -72,6 +72,12 @@ defmodule Taglet.TagletQuery do
     end
   end
 
+  def count_tagging_by_tag_id(tag_id) do
+    Tagging
+    |> where([t], t.tag_id == ^tag_id)
+    |> select([p], count(p.id))
+  end
+
   # Get ALL Tags related to context and taggable_type
   defp get_all_tags(tag_resource, taggable_type, context) do
     Tagging

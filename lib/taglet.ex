@@ -80,9 +80,22 @@ defmodule Taglet do
         |> TagletQuery.get_tags_association(get_or_create(tag), context)
         |> @repo.delete_all
 
+        remove_from_tag_if_unused(tag)
         put_tags(struct, context, List.delete(tag_list, tag))
       false ->
         put_tags(struct, context, tag_list)
+    end
+
+  end
+
+  defp remove_from_tag_if_unused(tag) do
+    tag = @repo.get_by(Tag, name: tag)
+    if tag do
+      TagletQuery.count_tagging_by_tag_id(tag.id)
+      |> @repo.one
+      |> case do
+        0 -> @repo.delete(tag)
+      end
     end
   end
 
