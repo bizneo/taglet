@@ -75,13 +75,54 @@ defmodule Taglet.TagAsTest do
     assert category_queryable |> @repo.all == ["mycategory"]
   end
 
-  test "using the module allows to remove a tag and list it" do
-    post = @repo.insert!(%Post{title: "hello world"})
-    Post.add_category(post, "mycategory")
+  test "Remove only a Tag relation" do
+    post1 = @repo.insert!(%Post{title: "Post1"})
+    post2 = @repo.insert!(%Post{title: "Post2"})
+    #We add a category without relations
+    Post.add_category("public")
+    #Now we add 2 new entries in Tagging relating with different tag_id
+    Post.add_category(post1, "public")
+    Post.add_category(post2, "public")
+    #Remove only the relation with post1
+    result = Post.remove_category(post1, "public")
+    # Tag still exits but there are 2 relations in Tagging that represent
+    # a general relation with Post - categories and one for post2
+    assert result.categories == []
+    assert Post.categories == ["public"]
+    assert Tag |> @repo.all |> length == 1
+    assert Tagging |> @repo.all |> length == 2
+  end
 
-    result = Post.remove_category(post, "mycategory")
+  test "It is possible to remove a Tag and all its relations" do
+    post = @repo.insert!(%Post{title: "Post1"})
+    #We add a category without relations
+    Post.add_category("public")
+    #Now we add a new entry in Tagging relating Tag and taggable_id
+    Post.add_category(post, "public")
+    #Remove everything about public - Post - categories
+    result = Post.remove_category("public")
 
     assert result.categories == []
+    assert Tag |> @repo.all == []
+    assert Tagging |> @repo.all == []
+  end
+
+  test "Remove a generic Tag keep other contexts" do
+    post = @repo.insert!(%Post{title: "Post1"})
+    #We add two categories in a general way (without relations)
+    Post.add_category("public")
+    Post.add_tag("private")
+    #Now we add 2 new entries in Tagging relating Tag and taggable_id
+    Post.add_category(post, "public")
+    Post.add_tag(post, "private")
+    #At this point we have 2 tags in Tag, and 4 entries in Tagging
+    result = Post.remove_category("public")
+
+    #Remove everything about public - Post - categories
+    assert result.categories == []
+    assert Post.categories == []
+    assert Post.tags == ["private"]
+    assert Tagging |> @repo.all  |> length == 2
   end
 
   test "using the module allows to search for all created tags for a context" do
@@ -121,4 +162,34 @@ defmodule Taglet.TagAsTest do
 
     assert result == [post1]
   end
+
+  test "Update a tag name without relations" do
+
+    Post.add_category(["public"])
+    assert Post.categories == ["public"]
+
+    #Now we add 2 new entries in Tagging relating Tag and taggable_id
+    Post.rename_category("public", "public_post")
+
+    assert Post.categories == ["public_post"]
+    assert Tag |> @repo.all  |> length == 1
+    assert Tagging |> @repo.all  |> length == 1
+  end
+
+  test "Update a tag name with relations and different contexts" do
+    Post.add_category(["public", "private"])
+    Post.add_tags(["private"])
+
+    assert Post.categories == ["private", "public"]
+    assert Post.tags == ["private"]
+
+    #Now we add 2 new entries in Tagging relating Tag and taggable_id
+    Post.rename_category("private", "private_category")
+
+    assert Post.categories == ["private_category", "public"]
+    assert Post.tags == ["private"]
+    assert Tag |> @repo.all  |> length == 3
+    assert Tagging |> @repo.all  |> length == 3
+  end
+
 end
