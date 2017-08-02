@@ -87,6 +87,7 @@ defmodule Taglet do
 
   end
 
+  defp remove_from_tag_if_unused(nil), do: nil
   defp remove_from_tag_if_unused(tag) do
     tag = repo().get_by(Tag, name: tag)
     if tag do
@@ -94,6 +95,7 @@ defmodule Taglet do
       |> repo().one
       |> case do
         0 -> repo().delete(tag)
+        _ -> nil
       end
     end
   end
@@ -124,20 +126,32 @@ defmodule Taglet do
   end
 
   defp rename_tag(struct, old_tag, new_tag_name, context) do
-    TagletQuery.count_tagging_by_tag_id(old_tag.id)
-    |> repo().one
-    |> case do
-      0 ->
-        #If the new tag is NOT in Tagging we have only to rename `name`
+    case any_tagging_by_tag_id(old_tag.id) do
+      false ->
+        #If the old tag is NOT in Tagging we have only to rename its `name`
         #in Tag table.
         Tag.changeset(old_tag, %{name: new_tag_name})
         |> repo().update
-      _ ->
-        #In this case we have to add or create a new Tag, and uptade all relations
+      true ->
+        #In this case we have to get or create a new Tag, and uptade all relations
         # context - taggable_type with the new_tag.id
         new_tag = get_or_create(new_tag_name)
+
         TagletQuery.get_tags_association(struct, old_tag, context)
         |> repo().update_all(set: [tag_id: new_tag.id])
+
+        if any_tagging_by_tag_id(old_tag.id) == false do
+          repo().delete(old_tag)
+        end
+    end
+  end
+
+  defp any_tagging_by_tag_id(tag_id) do
+    TagletQuery.count_tagging_by_tag_id(tag_id)
+    |> repo().one
+    |> case do
+      0 -> false
+      _ -> true
     end
   end
 
