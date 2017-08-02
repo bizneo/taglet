@@ -87,6 +87,7 @@ defmodule Taglet do
 
   end
 
+  # Remove tag from Tag table if it's unused
   defp remove_from_tag_if_unused(nil), do: nil
   defp remove_from_tag_if_unused(tag) do
     tag = repo().get_by(Tag, name: tag)
@@ -116,23 +117,23 @@ defmodule Taglet do
   in the context specificied.
 
   If the old_tag does not exist return nil.
-  context.
   """
-  def rename(struct, old_tag, new_tag, context) do
-    case repo().get_by(Tag, name: old_tag) do
+  @spec rename(struct, tag, tag, context) :: nil | struct
+  def rename(struct, old_tag_name, new_tag_name, context) do
+    case repo().get_by(Tag, name: old_tag_name) do
       nil -> nil
-      tag -> rename_tag(struct, tag, new_tag, context)
+      tag -> rename_tag(struct, tag, new_tag_name, context)
     end
   end
 
   defp rename_tag(struct, old_tag, new_tag_name, context) do
-    case any_tagging_by_tag_id(old_tag.id) do
-      false ->
+    case taggings_by_tag_id(old_tag.id) do
+      0 ->
         #If the old tag is NOT in Tagging we have only to rename its `name`
         #in Tag table.
         Tag.changeset(old_tag, %{name: new_tag_name})
         |> repo().update
-      true ->
+      _ ->
         #In this case we have to get or create a new Tag, and uptade all relations
         # context - taggable_type with the new_tag.id
         new_tag = get_or_create(new_tag_name)
@@ -140,19 +141,16 @@ defmodule Taglet do
         TagletQuery.get_tags_association(struct, old_tag, context)
         |> repo().update_all(set: [tag_id: new_tag.id])
 
-        if any_tagging_by_tag_id(old_tag.id) == false do
+        if taggings_by_tag_id(old_tag.id) == 0 do
           repo().delete(old_tag)
         end
     end
   end
 
-  defp any_tagging_by_tag_id(tag_id) do
+  #Return the number of entries in Tagging with the tag_id passed as param.
+  defp taggings_by_tag_id(tag_id) do
     TagletQuery.count_tagging_by_tag_id(tag_id)
     |> repo().one
-    |> case do
-      0 -> false
-      _ -> true
-    end
   end
 
   @doc """
