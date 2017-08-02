@@ -77,7 +77,15 @@ allow you to associate a new tag
 `Post.add_categories(struct, tags)` - Passing a persisted struct will
 allow you to associate a new list of tags
 
-`Post.remove_category(struct, tag)` - Will allow you to remove a tag
+`Post.add_category(tag)` - Add a Tag without associate it to a persisted struct,
+this allow you have tags availables in the context. Example using `Post.categories`
+
+`Post.remove_category(struct, tag)` - Will allow you to remove the relation `struct - tag`,
+but the tag will persist.
+
+`Post.remove_category(tag)` - Will allow you to remove a tag in the context `Post - category`. Tag and relations with Post will be deleted.
+
+`Post.rename_category(old_tag, new_tag)` - Will allow you to rename the tag name.
 
 `Post.categories_list(struct)` - List all associated tags with the given
 struct
@@ -104,6 +112,8 @@ If you want you can use directly a set of functions to play with tags:
 [`Taglet.add/3`](https://hexdocs.pm/taglet/Taglet.html#add/3)
 
 [`Taglet.remove/3`](https://hexdocs.pm/taglet/Taglet.html#remove/3)
+
+[`Taglet.rename/4`](https://hexdocs.pm/taglet/Taglet.html#rename/4)
 
 [`Taglet.tag_list/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list/2)
 
