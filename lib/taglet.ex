@@ -1,5 +1,6 @@
 defmodule Taglet do
   alias Taglet.{Tagging, Tag, TagletQuery}
+  import Taglet.RepoClient
 
   @moduledoc """
   Documentation for Taglet.
@@ -8,8 +9,6 @@ defmodule Taglet do
   Please read README.md to get more info about how to use that
   package.
   """
-
-  @repo Taglet.RepoClient.repo
 
   @type taggable            :: module | struct
   @type tags                :: String.t | list
@@ -44,7 +43,7 @@ defmodule Taglet do
       generate_tagging(struct, tag, context)
     end)
 
-    @repo.insert_all(Tagging, taggings)
+    repo().insert_all(Tagging, taggings)
 
     put_tags(struct, context, tag_list ++ new_tags)
   end
@@ -78,7 +77,7 @@ defmodule Taglet do
       true ->
         struct
         |> TagletQuery.get_tags_association(get_or_create(tag), context)
-        |> @repo.delete_all
+        |> repo().delete_all
 
         remove_from_tag_if_unused(tag)
         put_tags(struct, context, List.delete(tag_list, tag))
@@ -89,19 +88,19 @@ defmodule Taglet do
   end
 
   defp remove_from_tag_if_unused(tag) do
-    tag = @repo.get_by(Tag, name: tag)
+    tag = repo().get_by(Tag, name: tag)
     if tag do
       TagletQuery.count_tagging_by_tag_id(tag.id)
-      |> @repo.one
+      |> repo().one
       |> case do
-        0 -> @repo.delete(tag)
+        0 -> repo().delete(tag)
       end
     end
   end
 
   defp get_or_create(tag) do
-    case @repo.get_by(Tag, name: tag) do
-      nil -> @repo.insert!(%Tag{name: tag})
+    case repo().get_by(Tag, name: tag) do
+      nil -> repo().insert!(%Tag{name: tag})
       tag_resource -> tag_resource
     end
   end
@@ -118,7 +117,7 @@ defmodule Taglet do
   context.
   """
   def rename(struct, old_tag, new_tag, context) do
-    case @repo.get_by(Tag, name: old_tag) do
+    case repo().get_by(Tag, name: old_tag) do
       nil -> nil
       tag -> rename_tag(struct, tag, new_tag, context)
     end
@@ -126,19 +125,19 @@ defmodule Taglet do
 
   defp rename_tag(struct, old_tag, new_tag_name, context) do
     TagletQuery.count_tagging_by_tag_id(old_tag.id)
-    |> @repo.one
+    |> repo().one
     |> case do
       0 ->
         #If the new tag is NOT in Tagging we have only to rename `name`
         #in Tag table.
         Tag.changeset(old_tag, %{name: new_tag_name})
-        |> @repo.update
+        |> repo().update
       _ ->
         #In this case we have to add or create a new Tag, and uptade all relations
         # context - taggable_type with the new_tag.id
         new_tag = get_or_create(new_tag_name)
         TagletQuery.get_tags_association(struct, old_tag, context)
-        |> @repo.update_all(set: [tag_id: new_tag.id])
+        |> repo().update_all(set: [tag_id: new_tag.id])
     end
   end
 
@@ -155,7 +154,7 @@ defmodule Taglet do
   def tag_list(taggable, context \\ "tags") do
     taggable
     |> tag_list_queryable(context)
-    |> @repo.all
+    |> repo().all
   end
 
   @doc """
@@ -188,7 +187,7 @@ defmodule Taglet do
   def tagged_with(tags, model, context \\ "tags")
   def tagged_with(tag, model, context) when is_bitstring(tag), do: tagged_with([tag], model, context)
   def tagged_with(tags, model, context) do
-    do_tags_search(model, tags, context) |> @repo.all
+    do_tags_search(model, tags, context) |> repo().all
   end
 
   @doc """
