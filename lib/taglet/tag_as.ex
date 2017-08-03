@@ -4,6 +4,10 @@ defmodule Taglet.TagAs do
     singularized_context = Inflex.singularize(context)
 
     quote do
+      @before_compile unquote(__MODULE__)
+      Module.register_attribute __MODULE__, :contexts, accumulate: true
+      @contexts unquote(context)
+
       def unquote(:"add_#{singularized_context}")(struct, tag) do
         Taglet.add(struct, tag, unquote(context))
       end
@@ -45,4 +49,34 @@ defmodule Taglet.TagAs do
       end
     end
   end
+
+  defmacro __before_compile__(_env) do
+
+    quote do
+      @contexts
+      |> Enum.each(fn(context) ->
+        singularized_context = Inflex.singularize(context)
+
+        Module.eval_quoted(__MODULE__, quote do
+          def unquote(:"add_#{context}")(tags) do
+            Taglet.add(%__MODULE__{}, tags, unquote(context))
+          end
+
+          def unquote(:"add_#{singularized_context}")(tags) do
+            Taglet.add(%__MODULE__{}, tags, unquote(context))
+          end
+
+          def unquote(:"remove_#{singularized_context}")(tag) do
+            Taglet.remove(%__MODULE__{}, tag, unquote(context))
+          end
+
+          def unquote(:"rename_#{singularized_context}")(old_tag, new_tag) do
+            Taglet.rename(%__MODULE__{}, old_tag, new_tag, unquote(context) )
+          end
+        end)
+      end)
+    end
+
+  end
+
 end

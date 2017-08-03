@@ -58,6 +58,43 @@ defmodule Taglet.TagletQuery do
     |> select([m, tg, t], m)
   end
 
+  @doc """
+  Build the query to get all Tags of a tag_resource and context.
+  """
+  def get_tags_association(struct, tag_resource, context)  do
+    taggable_type = struct.__struct__
+    |> Module.split
+    |> List.last
+
+    case struct.id do
+      nil -> get_all_tags(tag_resource, taggable_type, context)
+      _ -> get_only_tags_related(tag_resource, taggable_type, struct.id, context)
+    end
+  end
+
+  def count_tagging_by_tag_id(tag_id) do
+    Tagging
+    |> where([t], t.tag_id == ^tag_id)
+    |> select([p], count(p.id))
+  end
+
+  # Get ALL Tags related to context and taggable_type
+  defp get_all_tags(tag_resource, taggable_type, context) do
+    Tagging
+    |> where([t],
+      t.tag_id == ^tag_resource.id
+      and t.taggable_type == ^taggable_type
+      and t.context == ^context
+    )
+  end
+
+  # Get only the tags related to a taggable_id
+  defp get_only_tags_related(tag_resource, taggable_type, taggable_id, context) do
+    tag_resource
+    |> get_all_tags(taggable_type, context)
+    |> where([t], t.taggable_id == ^taggable_id)
+  end
+
   defp join_taggings_from_model(query, context, taggable_type) do
     query
     |> join(:inner, [m], tg in Tagging,
