@@ -12,7 +12,7 @@ It also allows you to specify various contexts
 
   ```elixir
   def deps do
-    [{:taglet, "~> 0.5.0"}]
+    [{:taglet, "~> 0.6.0"}]
   end
   ```
 
