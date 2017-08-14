@@ -8,24 +8,39 @@ defmodule Taglet.TagAs do
       Module.register_attribute __MODULE__, :contexts, accumulate: true
       @contexts unquote(context)
 
-      def unquote(:"add_#{singularized_context}")(struct, tag) do
-        Taglet.add(struct, tag, unquote(context))
+      def unquote(:"add_#{singularized_context}")(struct, tag) when is_binary(tag) do
+        Taglet.add(struct, tag, unquote(context), [])
+      end
+      def unquote(:"add_#{singularized_context}")(struct, tag, opts) do
+        Taglet.add(struct, tag, unquote(context), opts)
       end
 
-      def unquote(:"add_#{context}")(struct, tags) do
-        Taglet.add(struct, tags, unquote(context))
+      def unquote(:"add_#{context}")(struct, tags) when not is_list(struct) do
+        Taglet.add(struct, tags, unquote(context), [])
+      end
+      def unquote(:"add_#{context}")(struct, tags, opts) do
+        Taglet.add(struct, tags, unquote(context), opts)
       end
 
-      def unquote(:"remove_#{singularized_context}")(struct, tag) do
-        Taglet.remove(struct, tag, unquote(context))
+      def unquote(:"remove_#{singularized_context}")(struct, tag) when is_binary(tag) do
+        Taglet.remove(struct, tag, unquote(context), [])
+      end
+      def unquote(:"remove_#{singularized_context}")(struct, tag, opts) do
+        Taglet.remove(struct, tag, unquote(context), opts)
       end
 
       def unquote(:"#{singularized_context}_list")(struct) do
-        Taglet.tag_list(struct, unquote(context))
+        Taglet.tag_list(struct, unquote(context), [])
+      end
+      def unquote(:"#{singularized_context}_list")(struct, opts) do
+        Taglet.tag_list(struct, unquote(context), opts)
       end
 
       def unquote(:"#{context}")() do
-        Taglet.tag_list(__MODULE__, unquote(context))
+        Taglet.tag_list(__MODULE__, unquote(context), [])
+      end
+      def unquote(:"#{context}")(opts) do
+        Taglet.tag_list(__MODULE__, unquote(context), opts)
       end
 
       def unquote(:"#{context}_queryable")() do
@@ -33,11 +48,17 @@ defmodule Taglet.TagAs do
       end
 
       def unquote(:"tagged_with_#{singularized_context}")(tag) do
-        Taglet.tagged_with(tag, __MODULE__, unquote(context))
+        Taglet.tagged_with(tag, __MODULE__, unquote(context), [])
+      end
+      def unquote(:"tagged_with_#{singularized_context}")(tag, opts) do
+        Taglet.tagged_with(tag, __MODULE__, unquote(context), opts)
       end
 
       def unquote(:"tagged_with_#{context}")(tags) do
-        Taglet.tagged_with(tags, __MODULE__, unquote(context))
+        Taglet.tagged_with(tags, __MODULE__, unquote(context), [])
+      end
+      def unquote(:"tagged_with_#{context}")(tags, opts) do
+        Taglet.tagged_with(tags, __MODULE__, unquote(context), opts)
       end
 
       def unquote(:"tagged_with_query_#{singularized_context}")(queryable, tag) do
@@ -59,19 +80,31 @@ defmodule Taglet.TagAs do
 
         Module.eval_quoted(__MODULE__, quote do
           def unquote(:"add_#{context}")(tags) do
-            Taglet.add(%__MODULE__{}, tags, unquote(context))
+            Taglet.add(%__MODULE__{}, tags, unquote(context), [])
+          end
+          def unquote(:"add_#{context}")(tags, opts) do
+            Taglet.add(%__MODULE__{}, tags, unquote(context), opts)
           end
 
           def unquote(:"add_#{singularized_context}")(tags) do
-            Taglet.add(%__MODULE__{}, tags, unquote(context))
+            Taglet.add(%__MODULE__{}, tags, unquote(context), [])
+          end
+          def unquote(:"add_#{singularized_context}")(tags, opts) do
+            Taglet.add(%__MODULE__{}, tags, unquote(context), opts)
           end
 
           def unquote(:"remove_#{singularized_context}")(tag) do
-            Taglet.remove(%__MODULE__{}, tag, unquote(context))
+            Taglet.remove(%__MODULE__{}, tag, unquote(context), [])
+          end
+          def unquote(:"remove_#{singularized_context}")(tag, opts) do
+            Taglet.remove(%__MODULE__{}, tag, unquote(context), opts)
           end
 
           def unquote(:"rename_#{singularized_context}")(old_tag, new_tag) do
-            Taglet.rename(%__MODULE__{}, old_tag, new_tag, unquote(context) )
+            Taglet.rename(%__MODULE__{}, old_tag, new_tag, unquote(context), [])
+          end
+          def unquote(:"rename_#{singularized_context}")(old_tag, new_tag, opts) do
+            Taglet.rename(%__MODULE__{}, old_tag, new_tag, unquote(context), opts)
           end
         end)
       end)

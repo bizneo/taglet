@@ -49,7 +49,7 @@ defmodule Taglet.Mixfile do
     [
       name: :taglet,
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
-      maintainers: ["itsquall", "abmm"],
+      maintainers: ["itsquall", "abmm", "dreamingechoes"],
       licenses: ["Apache License 2.0"],
       links: %{
         "GitHub" => "https://github.com/bizneo/taglet",
