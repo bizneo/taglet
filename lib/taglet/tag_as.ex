@@ -8,7 +8,7 @@ defmodule Taglet.TagAs do
       Module.register_attribute __MODULE__, :contexts, accumulate: true
       @contexts unquote(context)
 
-      def unquote(:"add_#{singularized_context}")(struct, tag) when is_bitstring(tag) do
+      def unquote(:"add_#{singularized_context}")(struct, tag) when is_binary(tag) do
         Taglet.add(struct, tag, unquote(context), [])
       end
       def unquote(:"add_#{singularized_context}")(struct, tag, opts) do
@@ -22,7 +22,7 @@ defmodule Taglet.TagAs do
         Taglet.add(struct, tags, unquote(context), opts)
       end
 
-      def unquote(:"remove_#{singularized_context}")(struct, tag) when is_bitstring(tag) do
+      def unquote(:"remove_#{singularized_context}")(struct, tag) when is_binary(tag) do
         Taglet.remove(struct, tag, unquote(context), [])
       end
       def unquote(:"remove_#{singularized_context}")(struct, tag, opts) do
