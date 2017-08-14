@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/bizneo/taglet/tree/master.svg?style=svg)](https://circleci.com/gh/bizneo/taglet/tree/master)
-
 # Taglet
+
+[![CircleCI](https://circleci.com/gh/bizneo/taglet/tree/master.svg?style=svg)](https://circleci.com/gh/bizneo/taglet/tree/master)
 
 Taglet allows you to manage tags associated to your records.
 
@@ -107,18 +107,19 @@ concatenate ecto queries and return the query.
 
 
 ## Working with functions
+
 If you want you can use directly a set of functions to play with tags:
 
-[`Taglet.add/3`](https://hexdocs.pm/taglet/Taglet.html#add/3)
+[`Taglet.add/4`](https://hexdocs.pm/taglet/Taglet.html#add/4)
 
-[`Taglet.remove/3`](https://hexdocs.pm/taglet/Taglet.html#remove/3)
+[`Taglet.remove/4`](https://hexdocs.pm/taglet/Taglet.html#remove/4)
 
-[`Taglet.rename/4`](https://hexdocs.pm/taglet/Taglet.html#rename/4)
+[`Taglet.rename/5`](https://hexdocs.pm/taglet/Taglet.html#rename/5)
 
-[`Taglet.tag_list/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list/2)
+[`Taglet.tag_list/3`](https://hexdocs.pm/taglet/Taglet.html#tag_list/3)
 
 [`Taglet.tag_list_queryable/2`](https://hexdocs.pm/taglet/Taglet.html#tag_list_queryable/2)
 
-[`Taglet.tagged_with/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with/3)
+[`Taglet.tagged_with/4`](https://hexdocs.pm/taglet/Taglet.html#tagged_with/4)
 
 [`Taglet.tagged_with_query/3`](https://hexdocs.pm/taglet/Taglet.html#tagged_with_query/3)
