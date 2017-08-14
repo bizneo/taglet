@@ -28,7 +28,7 @@ defmodule Taglet do
   It returns the struct with a new entry for the given context.
   """
   @spec add(struct, tags, context, opts) :: struct
-  def add(struct, tags, context \\ "tags", opts \\ [prefix: nil])
+  def add(struct, tags, context \\ "tags", opts \\ [])
   def add(struct, nil, _context, _opts), do: struct
   def add(struct, tag, context, opts) when is_bitstring(tag), do: add(struct, [tag], context, opts)
   def add(struct, tags, context, _opts) when is_list(context), do: add(struct, tags, "tags", context)
@@ -72,7 +72,7 @@ defmodule Taglet do
 
   """
   @spec remove(struct, tag, context, opts) :: struct
-  def remove(struct, tag, context \\ "tags", opts \\ [prefix: nil])
+  def remove(struct, tag, context \\ "tags", opts \\ [])
   def remove(struct, tag, context, opts) when is_list(context), do: remove(struct, tag, "tags", opts)
   def remove(struct, tag, context, opts) do
     tag_list = tag_list(struct, context, opts)
@@ -123,7 +123,7 @@ defmodule Taglet do
   If the old_tag does not exist return nil.
   """
   @spec rename(struct, tag, tag, context, opts) :: nil | struct
-  def rename(struct, old_tag_name, new_tag_name, context, opts \\ [prefix: nil]) do
+  def rename(struct, old_tag_name, new_tag_name, context, opts \\ []) do
     case repo().get_by(Tag, [name: old_tag_name], opts) do
       nil -> nil
       tag -> rename_tag(struct, tag, new_tag_name, context, opts)
@@ -167,7 +167,7 @@ defmodule Taglet do
   - With a module: it returns all the tags associated to one module and context.
   """
   @spec tag_list(taggable, context, opts) :: tag_list
-  def tag_list(taggable, context \\ "tags", opts \\ [prefix: nil]) do
+  def tag_list(taggable, context \\ "tags", opts \\ []) do
     taggable
     |> tag_list_queryable(context)
     |> repo().all(opts)
@@ -200,7 +200,7 @@ defmodule Taglet do
   You can pass a simple tag or a list of tags.
   """
   @spec tagged_with(tags, module, context, opts) :: list
-  def tagged_with(tags, model, context \\ "tags", opts \\ [prefix: nil])
+  def tagged_with(tags, model, context \\ "tags", opts \\ [])
   def tagged_with(tag, model, context, opts) when is_bitstring(tag), do: tagged_with([tag], model, context, opts)
   def tagged_with(tag, model, context, _opts) when is_list(context), do: tagged_with(tag, model, "tags", context)
   def tagged_with(tags, model, context, opts) do
