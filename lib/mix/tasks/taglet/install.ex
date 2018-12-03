@@ -9,6 +9,7 @@ defmodule Mix.Tasks.Taglet.Install do
     path = Path.relative_to("priv/repo/migrations", Mix.Project.app_path)
     tag_file = Path.join(path, "#{timestamp()}_create_tag.exs")
     tagging_file = Path.join(path, "#{timestamp()}_create_tagging.exs")
+    taggable_id_type = Application.get_env(:taglet, :taggable_id, :integer)
     create_directory path
 
     create_file tag_file, """
@@ -31,7 +32,7 @@ defmodule Mix.Tasks.Taglet.Install do
         create table(:taggings) do
           add :tag_id, references(:tags, on_delete: :delete_all)
 
-          add :taggable_id,      :integer
+          add :taggable_id,      #{taggable_id_type}
           add :taggable_type,    :string, null: false
 
           add :context, :string, null: false, default: "tag"
