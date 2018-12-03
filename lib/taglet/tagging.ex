@@ -2,7 +2,7 @@ defmodule Taglet.Tagging do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @taggable_id_type if Application.get_env(:taglet, :taggable_id, :integer) == :uuid, do: :id
+  @taggable_id_type if Application.get_env(:taglet, :taggable_id) == :uuid, do: :id, else: :integer
 
   schema "taggings" do
     field :taggable_id, @taggable_id_type, null: false
