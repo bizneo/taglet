@@ -19,7 +19,12 @@ It also allows you to specify various contexts
   2. Configure Taglet to use your repo in `config/config.exs`:
 
   ```elixir
-  config :taglet, repo: ApplicationName.Repo
+  # Options
+  # taggable_id - This field is default :integer, but you can set it as :uuid
+
+  config :taglet,
+    repo: ApplicationName.Repo,
+    taggable_id: :uuid
   ```
 
   3. Install your dependencies:
